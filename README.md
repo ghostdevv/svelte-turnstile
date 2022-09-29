@@ -17,7 +17,7 @@ The only required prop is the `siteKey` which you can get from [adding a site he
     import { Turnstile } from 'svelte-turnstile';
 </script>
 
-<Turnstile siteKey="0x4AAAAAAAAn8CCb_WenRWb-" />
+<Turnstile siteKey="SITE_KEY" />
 ```
 
 ## Props
