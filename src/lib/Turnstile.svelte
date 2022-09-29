@@ -54,7 +54,6 @@
     });
 
     function loadCallback() {
-        console.log('Turnstile loaded');
         loaded = true;
     }
 
@@ -75,8 +74,6 @@
     }
 
     $: if (loaded && node) {
-        console.log('Rendering Turnstile');
-
         widgetId = window.turnstile.render(node, {
             'expired-callback': expired,
             'error-callback': error,
