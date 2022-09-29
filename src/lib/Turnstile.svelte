@@ -20,9 +20,11 @@
         callback?: (token: string) => void;
         'error-callback'?: () => void;
         'expired-callback'?: () => void;
-        theme?: 'light' | 'dark' | 'auto';
+        theme?: TurnstileTheme;
         tabindex?: number;
     }
+
+    export type TurnstileTheme = 'light' | 'dark' | 'auto';
 </script>
 
 <script lang="ts">
@@ -38,9 +40,9 @@
 
     export let siteKey: string;
 
-    export let theme: TurnstileOptions['theme'] = 'auto';
     export let action: string | undefined = undefined;
     export let cData: string | undefined = undefined;
+    export let theme: TurnstileTheme = 'auto';
     export let tabIndex = 0;
 
     onMount(() => {
