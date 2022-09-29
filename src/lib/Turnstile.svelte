@@ -33,7 +33,6 @@
 
     let loaded = false;
     let mounted = false;
-    let node: HTMLElement;
 
     let widgetId: string;
 
@@ -73,7 +72,7 @@
         dispatch('turnstile-callback', { token });
     }
 
-    $: if (loaded && node) {
+    const turnstile = (node: HTMLElement) => {
         widgetId = window.turnstile.render(node, {
             'expired-callback': expired,
             'error-callback': error,
@@ -86,7 +85,7 @@
             theme,
             cData,
         });
-    }
+    };
 </script>
 
 <svelte:head>
@@ -98,4 +97,8 @@
     {/if}
 </svelte:head>
 
-<div bind:this={node} />
+{#if loaded && mounted}
+    {#key $$props}
+        <div use:turnstile />
+    {/key}
+{/if}
