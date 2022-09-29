@@ -8,6 +8,10 @@
 npm install svelte-turnstile -D
 ```
 
+# Demo
+
+https://svelte-turnstile.pages.dev/
+
 # Using
 
 The only required prop is the `siteKey` which you can get from [adding a site here](https://dash.cloudflare.com/?to=/:account/turnstile).
