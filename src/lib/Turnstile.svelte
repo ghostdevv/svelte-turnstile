@@ -31,7 +31,11 @@
     import { createEventDispatcher } from 'svelte';
     import { onMount } from 'svelte';
 
-    const dispatch = createEventDispatcher();
+    const dispatch = createEventDispatcher<{
+        'turnstile-expired': {};
+        'turnstile-callback': { token: string };
+        'turnstile-error': {};
+    }>();
 
     let loaded = false;
     let mounted = false;
