@@ -51,31 +51,37 @@ We need to validate the captcha token server side before we do any action on the
 If you are using a HTML Form and POSTing to a server you can get the `cf-turnstile-response` property to get the `token`, otherwise you can use the `on:turnstile-callback` event in svelte to keep track of the token and send it to your backend.
 
 ```ts
-import FormData from 'form-data';
-
 interface TokenValidateResponse {
+    'error-codes': string[];
     success: boolean;
     action: string;
     cdata: string;
 }
 
 async function validateToken(token: string, secret: string) {
-    const body = new FormData();
-    body.append('response', token);
-    body.append('secret', secret);
-
     const response = await fetch(
         'https://challenges.cloudflare.com/turnstile/v0/siteverify',
         {
             method: 'POST',
-            body: body.getBuffer(),
-            headers: body.getHeaders(),
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                response: token,
+                secret: secret,
+            });
         },
     );
 
     const data: TokenValidateResponse = await response.json();
 
-    return data.success;
+    return {
+        // Return the status
+        success: data.success,
+
+        // Return the first error if it exists
+        error: data['error-codes']?.length ? data['error-codes'][0] : null,
+    };
 }
 ```
 
@@ -103,18 +109,21 @@ In SvelteKit we can use form actions to easily setup a form with a captcha:
 
 `routes/login/+page.server.js`
 ```js
+// Copy and paste the validateToken function from above here
+
 export const actions = {
     default: async ({ request }) => {
         const data = await request.formData();
 
         const token = data.get('cf-turnstile-response')
-        const SECRET_KEY = '...' // you should use env module for secrets
+        const SECRET_KEY = '...' // you should use $env module for secrets
 
-        const validToken = await validateToken(token, SECRET_KEY);
+        const { success, error } = await validateToken(token, SECRET_KEY);
 
-        if (!validToken) return {
-            error: 'Invalid CAPTCHA'
-        }
+        if (!success)
+            return {
+                error: error || 'Invalid CAPTCHA',
+            };
 
         // do something, the captcha is valid!
     }
