@@ -1,7 +1,9 @@
 <script context="module" lang="ts">
+    // Credit for the type defs go to @Le0Developer
+    // https://github.com/Le0Developer/react-turnstile/blob/420eddf1e0bde2ad593dd78bd99b8f134ce8a754/src/index.tsx#L139
+
     declare global {
         interface Window {
-            onloadTurnstileCallback: () => void;
             turnstile: {
                 render: (
                     element: string | HTMLElement,
@@ -9,6 +11,7 @@
                 ) => string;
                 reset: (widgetId: string) => void;
                 getResponse: (widgetId: string) => string | undefined;
+                remove: (widgetId: string) => void;
             };
         }
     }
@@ -22,6 +25,11 @@
         'expired-callback'?: () => void;
         theme?: TurnstileTheme;
         tabindex?: number;
+
+        // Undocumented Fields - not implemented in svelte-turnstile yet
+        size?: 'normal' | 'invisible' | 'compact';
+        'response-field'?: boolean;
+        'response-field-name'?: string;
     }
 
     export type TurnstileTheme = 'light' | 'dark' | 'auto';
@@ -29,6 +37,7 @@
 
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
+    import type { Action } from 'svelte/action';
     import { onMount } from 'svelte';
 
     const dispatch = createEventDispatcher<{
@@ -78,8 +87,8 @@
         dispatch('turnstile-callback', { token });
     }
 
-    const turnstile = (node: HTMLElement) => {
-        widgetId = window.turnstile.render(node, {
+    const turnstile: Action = (node) => {
+        const id = window.turnstile.render(node, {
             'expired-callback': expired,
             'error-callback': error,
             callback,
@@ -91,6 +100,14 @@
             theme,
             cData,
         });
+
+        widgetId = id;
+
+        return {
+            destroy: () => {
+                window.turnstile.remove(id);
+            },
+        };
     };
 </script>
 
