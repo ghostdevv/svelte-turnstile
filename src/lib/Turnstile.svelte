@@ -97,7 +97,7 @@
 <svelte:head>
     {#if mounted}
         <script
-            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
             on:load={loadCallback}
             async></script>
     {/if}
