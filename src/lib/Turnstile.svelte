@@ -30,7 +30,7 @@
         'response-field-name'?: string;
     }
 
-    export type TurnstileSize = 'normal' | 'invisible' | 'compact';
+    export type TurnstileSize = 'normal' | 'compact';
     export type TurnstileTheme = 'light' | 'dark' | 'auto';
 </script>
 

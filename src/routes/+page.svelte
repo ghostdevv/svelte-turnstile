@@ -57,7 +57,6 @@
 
         <select bind:value={size}>
             <option value="normal">Normal</option>
-            <option value="invisible">Invisible</option>
             <option value="compact">Compact</option>
         </select>
     </label>
