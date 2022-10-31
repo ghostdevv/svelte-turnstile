@@ -26,8 +26,6 @@
         theme?: TurnstileTheme;
         tabindex?: number;
         size?: TurnstileSize;
-
-        // Undocumented Fields - not implemented in svelte-turnstile yet
         'response-field'?: boolean;
         'response-field-name'?: string;
     }
@@ -54,10 +52,12 @@
 
     export let siteKey: string;
 
+    export let formsField: string = 'cf-turnstile-response';
     export let action: string | undefined = undefined;
     export let cData: string | undefined = undefined;
     export let theme: TurnstileTheme = 'auto';
     export let size: TurnstileSize = 'normal';
+    export let forms = true;
     export let tabIndex = 0;
 
     onMount(() => {
@@ -97,6 +97,8 @@
 
             sitekey: siteKey,
 
+            'response-field-name': formsField,
+            'response-field': forms,
             tabindex: tabIndex,
             action,
             theme,
