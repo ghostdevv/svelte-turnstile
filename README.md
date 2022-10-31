@@ -29,12 +29,12 @@ The only required prop is the `siteKey` which you can get from [adding a site he
 | Prop         | Type                                   | Description                                                                                  | Required                                     |
 |--------------|----------------------------------------|----------------------------------------------------------------------------------------------|----------------------------------------------|
 | `siteKey`    | `string`                               | sitekey for your website                                                                     | ✅                                           |
-| `theme`      | `'light' \| 'dark' \| 'auto'`          | colour theme of the widget (defaults to `auto`)                                                | ❌                                           |
-| `size`       | `'normal' \| 'compact' \| 'invisible'` | size of the widget (defaults to `normal`)                                                      | ❌                                           |
+| `theme`      | `'light' \| 'dark' \| 'auto'`          | colour theme of the widget (defaults to `auto`)                                              | ❌                                           |
+| `size`       | `'normal' \| 'compact'`                | size of the widget (defaults to `normal`)                                                    | ❌                                           |
 | `action`     | `string`                               | A string that can be used to differentiate widgets, returned on validation                   | ❌                                           |
 | `cData`      | `string`                               | A string that can attach customer data to a challange, returned on validation                | ❌                                           |
-| `tabIndex`   | `number`                               | Used for accessibility (defaults to `0`)                                                       | ❌                                           |
-| `forms`      | `boolean`                              | if true the response token will be a property on the form data (default `true`)                | ❌                                           |
+| `tabIndex`   | `number`                               | Used for accessibility (defaults to `0`)                                                     | ❌                                           |
+| `forms`      | `boolean`                              | if true the response token will be a property on the form data (default `true`)              | ❌                                           |
 | `formsField` | `string`                               | the `name` of the input which will appear on the form data (default `cf-turnstile-response`) | ❌                                           |
 
 For more information about some of the props [checkout the Cloudflare Documentation](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#configurations).
