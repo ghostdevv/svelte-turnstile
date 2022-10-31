@@ -25,13 +25,14 @@
         'expired-callback'?: () => void;
         theme?: TurnstileTheme;
         tabindex?: number;
+        size?: TurnstileSize;
 
         // Undocumented Fields - not implemented in svelte-turnstile yet
-        size?: 'normal' | 'invisible' | 'compact';
         'response-field'?: boolean;
         'response-field-name'?: string;
     }
 
+    export type TurnstileSize = 'normal' | 'invisible' | 'compact';
     export type TurnstileTheme = 'light' | 'dark' | 'auto';
 </script>
 
@@ -56,6 +57,7 @@
     export let action: string | undefined = undefined;
     export let cData: string | undefined = undefined;
     export let theme: TurnstileTheme = 'auto';
+    export let size: TurnstileSize = 'normal';
     export let tabIndex = 0;
 
     onMount(() => {
@@ -99,6 +101,7 @@
             action,
             theme,
             cData,
+            size,
         });
 
         widgetId = id;
