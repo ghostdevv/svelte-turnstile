@@ -26,14 +26,16 @@ The only required prop is the `siteKey` which you can get from [adding a site he
 
 ## Props
 
-| Prop       | Type                                  | Description                                                                   | Required |
-|------------|---------------------------------------|-------------------------------------------------------------------------------|----------|
-| `siteKey`  | `string`                              | sitekey for your website                                                      | ✅       |
-| `theme`    | `'light' \| 'dark' \| 'auto'`         | colour theme of the widget (defaults to auto)                                 | ❌       |
-| `size`    | `'normal' \| 'compact' \| 'invisible'` | size of the widget (defaults to normal)                                       | ❌       |
-| `action`   | `string`                              | A string that can be used to differentiate widgets, returned on validation    | ❌       |
-| `cData`    | `string`                              | A string that can attach customer data to a challange, returned on validation | ❌       |
-| `tabIndex` | `number`                              | Used for accessibility (defaults to 0)                                        | ❌       |
+| Prop         | Type                                   | Description                                                                                  | Required                                     |
+|--------------|----------------------------------------|----------------------------------------------------------------------------------------------|----------------------------------------------|
+| `siteKey`    | `string`                               | sitekey for your website                                                                     | ✅                                           |
+| `theme`      | `'light' \| 'dark' \| 'auto'`          | colour theme of the widget (defaults to `auto`)                                                | ❌                                           |
+| `size`       | `'normal' \| 'compact' \| 'invisible'` | size of the widget (defaults to `normal`)                                                      | ❌                                           |
+| `action`     | `string`                               | A string that can be used to differentiate widgets, returned on validation                   | ❌                                           |
+| `cData`      | `string`                               | A string that can attach customer data to a challange, returned on validation                | ❌                                           |
+| `tabIndex`   | `number`                               | Used for accessibility (defaults to `0`)                                                       | ❌                                           |
+| `forms`      | `boolean`                              | if true the response token will be a property on the form data (default `true`)                | ❌                                           |
+| `formsField` | `string`                               | the `name` of the input which will appear on the form data (default `cf-turnstile-response`) | ❌                                           |
 
 For more information about some of the props [checkout the Cloudflare Documentation](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#configurations).
 
@@ -49,7 +51,7 @@ For more information about some of the props [checkout the Cloudflare Documentat
 
 We need to validate the captcha token server side before we do any action on the server, this is to ensure no forgery occured. We can create a simple validate function:
 
-If you are using a HTML Form and POSTing to a server you can get the `cf-turnstile-response` property to get the `token`, otherwise you can use the `on:turnstile-callback` event in svelte to keep track of the token and send it to your backend.
+If you are using a HTML Form and POSTing to a server you can get the `cf-turnstile-response` (or what you configured it to using the `formsField` option) property to get the `token`, otherwise you can use the `on:turnstile-callback` event in svelte to keep track of the token and send it to your backend.
 
 ```ts
 interface TokenValidateResponse {
@@ -116,7 +118,7 @@ export const actions = {
     default: async ({ request }) => {
         const data = await request.formData();
 
-        const token = data.get('cf-turnstile-response')
+        const token = data.get('cf-turnstile-response') // if you edited the formsField option change this
         const SECRET_KEY = '...' // you should use $env module for secrets
 
         const { success, error } = await validateToken(token, SECRET_KEY);
