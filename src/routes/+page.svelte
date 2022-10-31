@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Turnstile, type TurnstileTheme } from '$lib';
+    import { Turnstile, type TurnstileSize, type TurnstileTheme } from '$lib';
     import type { ActionData } from './$types';
     import { enhance } from '$app/forms';
 
@@ -8,6 +8,7 @@
     let secretKey = '1x0000000000000000000000000000000AA';
     let siteKey = '1x00000000000000000000AA';
     let theme: TurnstileTheme = 'auto';
+    let size: TurnstileSize = 'normal';
 </script>
 
 <section class="row">
@@ -50,11 +51,21 @@
             <option value="light">Light</option>
         </select>
     </label>
+
+    <label>
+        Size
+
+        <select bind:value={size}>
+            <option value="normal">Normal</option>
+            <option value="invisible">Invisible</option>
+            <option value="compact">Compact</option>
+        </select>
+    </label>
 </section>
 
 <section>
     <form method="POST" use:enhance>
-        <Turnstile {siteKey} {theme} />
+        <Turnstile {size} {siteKey} {theme} />
         <input type="hidden" name="secret" bind:value={secretKey} />
         <button>Validate</button>
     </form>
