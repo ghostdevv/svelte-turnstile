@@ -84,10 +84,6 @@
 
     function expired() {
         dispatch('turnstile-expired', {});
-
-        if (widgetId) {
-            window.turnstile.reset(widgetId);
-        }
     }
 
     function callback(token: string) {
