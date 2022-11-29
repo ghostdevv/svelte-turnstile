@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-    // Credit for the type defs go to @Le0Developer
-    // https://github.com/Le0Developer/react-turnstile/blob/420eddf1e0bde2ad593dd78bd99b8f134ce8a754/src/index.tsx#L139
+    // Thanks to @Le0Developer for his typedefs which these are based on
+    // https://github.com/Le0Developer/react-turnstile/blob/01cc403b043955f9698fd9d498667fc181e4128b/src/index.tsx#L136
 
     declare global {
         interface Window {
@@ -23,6 +23,7 @@
         callback?: (token: string) => void;
         'error-callback'?: () => void;
         'expired-callback'?: () => void;
+        'timeout-callback'?: () => void;
         theme?: TurnstileTheme;
         tabindex?: number;
         size?: TurnstileSize;
@@ -40,9 +41,10 @@
     import { onMount } from 'svelte';
 
     const dispatch = createEventDispatcher<{
-        'turnstile-expired': {};
         'turnstile-callback': { token: string };
         'turnstile-error': {};
+        'turnstile-expired': {};
+        'turnstile-timeout': {};
     }>();
 
     let loaded = false;
@@ -85,12 +87,17 @@
         }
     }
 
+    function timeout() {
+        dispatch('turnstile-timeout', {});
+    }
+
     function callback(token: string) {
         dispatch('turnstile-callback', { token });
     }
 
     const turnstile: Action = (node) => {
         const id = window.turnstile.render(node, {
+            'timeout-callback': timeout,
             'expired-callback': expired,
             'error-callback': error,
             callback,
