@@ -29,8 +29,11 @@
         size?: TurnstileSize;
         'response-field'?: boolean;
         'response-field-name'?: string;
+        'retry-interval'?: number;
+        retry?: TurnstileRetry;
     }
 
+    export type TurnstileRetry = 'auto' | 'never';
     export type TurnstileSize = 'normal' | 'compact';
     export type TurnstileTheme = 'light' | 'dark' | 'auto';
 </script>
@@ -57,6 +60,8 @@
     export let formsField: string = 'cf-turnstile-response';
     export let action: string | undefined = undefined;
     export let cData: string | undefined = undefined;
+    export let retryInterval: number | undefined = 8000;
+    export let retry: TurnstileRetry = 'auto';
     export let theme: TurnstileTheme = 'auto';
     export let size: TurnstileSize = 'normal';
     export let forms = true;
@@ -81,10 +86,6 @@
 
     function expired() {
         dispatch('turnstile-expired', {});
-
-        if (widgetId) {
-            window.turnstile.reset(widgetId);
-        }
     }
 
     function timeout() {
@@ -105,9 +106,11 @@
             sitekey: siteKey,
 
             'response-field-name': formsField,
+            'retry-interval': retryInterval,
             'response-field': forms,
             tabindex: tabIndex,
             action,
+            retry,
             theme,
             cData,
             size,
