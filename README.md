@@ -41,11 +41,12 @@ For more information about some of the props [checkout the Cloudflare Documentat
 
 ## Events
 
-| Event                | Data                | Description                                                                  |
-|----------------------|---------------------|------------------------------------------------------------------------------|
-| `turnstile-error`    | `{}`                | Emitted when a user fails verification                                       |
-| `turnstile-expired`  | `{}`                | Emitted when a challenge expires, this library will auto-renew the challenge |
-| `turnstile-callback` | `{ token: string }` | Emitted when a user passes a challenge                                       |
+| Event                | Data                | Description                                                    |
+|----------------------|---------------------|----------------------------------------------------------------|
+| `turnstile-error`    | `{}`                | Emitted when a user fails verification                         |
+| `turnstile-expired`  | `{}`                | Emitted when a challenge expires and does not reset the widget |
+| `turnstile-timeout`  | `{}`                | Emitted when a challenge expires and does reset the widget     |
+| `turnstile-callback` | `{ token: string }` | Emitted when a user passes a challenge                         |
 
 # Validate CAPTCHA
 
