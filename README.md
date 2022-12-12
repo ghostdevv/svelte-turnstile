@@ -70,12 +70,12 @@ async function validateToken(token: string, secret: string) {
         {
             method: 'POST',
             headers: {
-                'content-type': 'application/x-www-form-urlencoded',
+                'content-type': 'application/json',
             },
-            body: new URLSearchParams({
+            body: JSON.stringify({
                 response: token,
                 secret: secret,
-            });
+            }),
         },
     );
 
