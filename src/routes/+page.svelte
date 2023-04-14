@@ -68,8 +68,11 @@
     <form method="POST" use:enhance>
         <Turnstile {size} {siteKey} {theme} bind:reset />
         <input type="hidden" name="secret" bind:value={secretKey} />
-        <button>Validate</button>
-        <button on:click={() => reset?.()}>Reset</button>
+
+        <div class="row">
+            <button>Validate</button>
+            <button type="button" on:click={() => reset?.()}>Reset</button>
+        </div>
     </form>
 
     <p style="margin-top: 8px;">
