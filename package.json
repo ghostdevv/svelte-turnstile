@@ -9,17 +9,23 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "1.0.0-next.90",
-		"@sveltejs/kit": "1.0.0-next.584",
-		"@sveltejs/package": "1.0.0-next.6",
+		"@sveltejs/adapter-auto": "2.0.0",
+		"@sveltejs/kit": "1.15.5",
+		"@sveltejs/package": "^2.0.0",
 		"ghostsui": "^1.6.0",
-		"sass": "^1.56.2",
-		"svelte": "^3.54.0",
-		"svelte-check": "^2.10.2",
-		"svelte-preprocess": "^5.0.0",
-		"tslib": "^2.4.1",
-		"typescript": "^4.9.4",
-		"vite": "^4.0.0"
+		"sass": "^1.62.0",
+		"svelte": "^3.58.0",
+		"svelte-check": "^3.2.0",
+		"svelte-preprocess": "^5.0.3",
+		"tslib": "^2.5.0",
+		"typescript": "^5.0.4",
+		"vite": "^4.2.1"
+	},
+	"peerDependencies": {
+		"svelte": "^3.58.0"
+	},
+	"dependencies": {
+		"turnstile-types": "^1.1.2"
 	},
 	"type": "module",
 	"repository": {
@@ -31,7 +37,16 @@
 		"url": "https://github.com/ghostdevv/svelte-turnstile/issues"
 	},
 	"author": "GHOST <ghostdevbusiness@gmail.com> (https://ghostdev.xyz)",
-	"dependencies": {
-		"turnstile-types": "^1.1.2"
-	}
+	"exports": {
+		"./package.json": "./package.json",
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js",
+			"default": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"svelte": "./dist/index.js"
 }
