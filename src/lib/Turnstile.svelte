@@ -1,66 +1,6 @@
-<script context="module" lang="ts">
-    // Thanks to @Le0Developer for his typedefs which these are based on
-    // https://github.com/Le0Developer/react-turnstile/blob/01cc403b043955f9698fd9d498667fc181e4128b/src/index.tsx#L136
-
-    declare global {
-        interface Window {
-            turnstile: {
-                render: (
-                    element: string | HTMLElement,
-                    options: TurnstileOptions,
-                ) => string;
-                reset: (widgetId: string) => void;
-                getResponse: (widgetId: string) => string | undefined;
-                remove: (widgetId: string) => void;
-            };
-        }
-    }
-
-    interface TurnstileOptions {
-        sitekey: string;
-        action?: string;
-        cData?: string;
-        callback?: (token: string) => void;
-        'error-callback'?: () => void;
-        'expired-callback'?: () => void;
-        'timeout-callback'?: () => void;
-        theme?: TurnstileTheme;
-        tabindex?: number;
-        size?: TurnstileSize;
-        'response-field'?: boolean;
-        'response-field-name'?: string;
-        'retry-interval'?: number;
-        retry?: TurnstileRetry;
-        language?: TurnstileLanguage | 'auto';
-        appearance?: 'always' | 'execute' | 'interaction-only';
-        execution?: 'render' | 'execute';
-    }
-
-    export type TurnstileLanguage =
-        | 'ar-eg'
-        | 'de'
-        | 'en'
-        | 'es'
-        | 'fa'
-        | 'fr'
-        | 'id'
-        | 'it'
-        | 'ja'
-        | 'ko'
-        | 'nl'
-        | 'pl'
-        | 'pt-br'
-        | 'ru'
-        | 'tr'
-        | 'zh-cn'
-        | 'zh-tw';
-
-    export type TurnstileRetry = 'auto' | 'never';
-    export type TurnstileSize = 'normal' | 'compact';
-    export type TurnstileTheme = 'light' | 'dark' | 'auto';
-</script>
-
 <script lang="ts">
+    import type { TurnstileSize, TurnstileTheme, Option } from './types.d';
+    import type { SupportedLanguages } from 'turnstile-types';
     import { createEventDispatcher } from 'svelte';
     import type { Action } from 'svelte/action';
     import { onMount } from 'svelte';
@@ -79,14 +19,14 @@
 
     export let siteKey: string;
 
-    export let appearance: 'always' | 'execute' | 'interaction-only' = 'always';
-    export let language: TurnstileLanguage | 'auto' = 'auto';
+    export let appearance: Option<'appearance'> = 'always';
+    export let language: SupportedLanguages | 'auto' = 'auto';
     export let formsField: string = 'cf-turnstile-response';
-    export let execution: 'render' | 'execute' = 'render';
+    export let execution: Option<'execution'> = 'render';
     export let action: string | undefined = undefined;
     export let cData: string | undefined = undefined;
     export let retryInterval: number | undefined = 8000;
-    export let retry: TurnstileRetry = 'auto';
+    export let retry: Option<'retry'> = 'auto';
     export let theme: TurnstileTheme = 'auto';
     export let size: TurnstileSize = 'normal';
     export let forms = true;
