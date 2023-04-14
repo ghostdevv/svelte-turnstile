@@ -31,7 +31,27 @@
         'response-field-name'?: string;
         'retry-interval'?: number;
         retry?: TurnstileRetry;
+        language: TurnstileLanguage | 'auto';
     }
+
+    export type TurnstileLanguage =
+        | 'ar-eg'
+        | 'de'
+        | 'en'
+        | 'es'
+        | 'fa'
+        | 'fr'
+        | 'id'
+        | 'it'
+        | 'ja'
+        | 'ko'
+        | 'nl'
+        | 'pl'
+        | 'pt-br'
+        | 'ru'
+        | 'tr'
+        | 'zh-cn'
+        | 'zh-tw';
 
     export type TurnstileRetry = 'auto' | 'never';
     export type TurnstileSize = 'normal' | 'compact';
@@ -57,6 +77,7 @@
 
     export let siteKey: string;
 
+    export let language: TurnstileLanguage | 'auto' = 'auto';
     export let formsField: string = 'cf-turnstile-response';
     export let action: string | undefined = undefined;
     export let cData: string | undefined = undefined;
@@ -113,6 +134,7 @@
             'retry-interval': retryInterval,
             'response-field': forms,
             tabindex: tabIndex,
+            language,
             action,
             retry,
             theme,
