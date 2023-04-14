@@ -9,6 +9,8 @@
     let siteKey = '1x00000000000000000000AA';
     let theme: TurnstileTheme = 'auto';
     let size: TurnstileSize = 'normal';
+
+    let reset: () => void | undefined;
 </script>
 
 <section class="row">
@@ -64,9 +66,10 @@
 
 <section>
     <form method="POST" use:enhance>
-        <Turnstile {size} {siteKey} {theme} />
+        <Turnstile {size} {siteKey} {theme} bind:reset />
         <input type="hidden" name="secret" bind:value={secretKey} />
         <button>Validate</button>
+        <button on:click={() => reset?.()}>Reset</button>
     </form>
 
     <p style="margin-top: 8px;">
