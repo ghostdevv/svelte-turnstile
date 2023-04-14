@@ -38,8 +38,9 @@ The only required prop is the `siteKey` which you can get from [adding a site he
 | `formsField`    | `string`                               | the `name` of the input which will appear on the form data (default `cf-turnstile-response`)   | ❌       |
 | `retry`         | `'auto' \| 'never'`                    | should the widget automatically retry to obtain a token if it did not succeed (default `auto`) | ❌       |
 | `retryInterval` | `number`                               | if `retry` is true, this controls the time between attempts in milliseconds (default `8000`)   | ❌       |
+| `language`      | `SupportedLanguage | 'auto'`           | if `retry` is true, this controls the time between attempts in milliseconds (default `8000`)   | ❌       |
 
-For more information about some of the props [checkout the Cloudflare Documentation](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#configurations).
+For more information about some of the props and a list of `SupportedLanguage`'s [checkout the Cloudflare Documentation](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#configurations).
 
 ## Events
 
