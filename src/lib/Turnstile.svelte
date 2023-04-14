@@ -95,10 +95,10 @@
     function callback(token: string) {
         dispatch('turnstile-callback', { token });
     }
-    
-    export function reset() {
-		return window.turnstile.reset(widgetId);
-	}
+
+    export function reset(): void {
+        window.turnstile.reset(widgetId);
+    }
 
     const turnstile: Action = (node) => {
         const id = window.turnstile.render(node, {
