@@ -136,6 +136,22 @@ export const actions = {
 }
 ```
 
+# Resetting
+
+If you need to manually reset the widget, you can do so by binding to the `reset` prop. For example:
+
+```html
+<script lang="ts">
+    let reset: () => void | undefined;
+</script>
+
+<button on:click={() => reset?.()}>
+    Reset
+</button>
+
+<Turnstile bind:reset />
+```
+
 # Support
 
 -   Join the [discord](https://discord.gg/2Vd4wAjJnm)<br>
