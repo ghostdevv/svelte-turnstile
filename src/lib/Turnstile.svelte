@@ -31,7 +31,9 @@
         'response-field-name'?: string;
         'retry-interval'?: number;
         retry?: TurnstileRetry;
-        language: TurnstileLanguage | 'auto';
+        language?: TurnstileLanguage | 'auto';
+        appearance?: 'always' | 'execute' | 'interaction-only';
+        execution?: 'render' | 'execute';
     }
 
     export type TurnstileLanguage =
@@ -77,8 +79,10 @@
 
     export let siteKey: string;
 
+    export let appearance: 'always' | 'execute' | 'interaction-only' = 'always';
     export let language: TurnstileLanguage | 'auto' = 'auto';
     export let formsField: string = 'cf-turnstile-response';
+    export let execution: 'render' | 'execute' = 'render';
     export let action: string | undefined = undefined;
     export let cData: string | undefined = undefined;
     export let retryInterval: number | undefined = 8000;
@@ -134,6 +138,8 @@
             'retry-interval': retryInterval,
             'response-field': forms,
             tabindex: tabIndex,
+            appearance,
+            execution,
             language,
             action,
             retry,
