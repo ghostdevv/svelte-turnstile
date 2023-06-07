@@ -1,9 +1,8 @@
 <script lang="ts">
-    import type { TurnstileSize, TurnstileTheme, Option } from './types.d';
+    import type { Option, TurnstileSize, TurnstileTheme } from './types.d';
     import type { SupportedLanguages } from 'turnstile-types';
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
     import type { Action } from 'svelte/action';
-    import { onMount } from 'svelte';
 
     const dispatch = createEventDispatcher<{
         'turnstile-callback': { token: string };
@@ -12,7 +11,7 @@
         'turnstile-timeout': {};
     }>();
 
-    let loaded = false;
+    let loaded = hasTurnstile();
     let mounted = false;
 
     let widgetId: string;
@@ -37,9 +36,13 @@
 
         return () => {
             mounted = false;
-            loaded = false;
         };
     });
+
+    function hasTurnstile() {
+        if (typeof window == 'undefined') return null;
+        return 'turnstile' in window;
+    }
 
     function loadCallback() {
         loaded = true;
@@ -99,7 +102,7 @@
 </script>
 
 <svelte:head>
-    {#if mounted}
+    {#if mounted && !loaded}
         <script
             src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
             on:load={loadCallback}
