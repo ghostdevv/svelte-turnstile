@@ -1,9 +1,8 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
+    import type { Option, TurnstileSize, TurnstileTheme } from './types.d';
+    import type { SupportedLanguages } from 'turnstile-types';
     import { createEventDispatcher, onMount } from 'svelte';
     import type { Action } from 'svelte/action';
-    import type { SupportedLanguages } from 'turnstile-types';
-    import type { Option, TurnstileSize, TurnstileTheme } from './types.d';
 
     const dispatch = createEventDispatcher<{
         'turnstile-callback': { token: string };
@@ -12,7 +11,7 @@
         'turnstile-timeout': {};
     }>();
 
-    let loaded = browser ? Object.hasOwn(window, 'turnstile') : false;
+    let loaded = hasTurnstile();
     let mounted = false;
 
     let widgetId: string;
@@ -37,9 +36,13 @@
 
         return () => {
             mounted = false;
-            loaded = false;
         };
     });
+
+    function hasTurnstile() {
+        if (typeof window == 'undefined') return null;
+        return 'turnstile' in window;
+    }
 
     function loadCallback() {
         loaded = true;
@@ -65,7 +68,7 @@
         window.turnstile.reset(widgetId);
     }
 
-    const turnstile: Action = (node: HTMLDivElement) => {
+    const turnstile: Action = (node) => {
         const id = window.turnstile.render(node, {
             'timeout-callback': timeout,
             'expired-callback': expired,
