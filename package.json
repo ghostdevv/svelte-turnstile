@@ -22,7 +22,7 @@
 		"vite": "^4.3.9"
 	},
 	"peerDependencies": {
-		"svelte": "^3.58.0"
+		"svelte": "^3.58.0 || ^4.0.0"
 	},
 	"dependencies": {
 		"turnstile-types": "^1.1.2"
