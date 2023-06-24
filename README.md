@@ -1,5 +1,7 @@
 # Svelte Turnstile
 
+Works with Svelte 3 & 4!
+
 [Cloudflare's Turnstile](https://developers.cloudflare.com/turnstile/) is a new CAPTCHA alternative, this library allows you to easily integrate it into your svelte projects.
 
 # Installing
