@@ -20,6 +20,10 @@
              * @param token - The token passed upon successful challenge.
              */
             callback: { token: string };
+            /**
+             * @deprecated Use `callback` instead.
+             */
+            'turnstile-callback': { token: string };
         } & typeof events
     >();
 
@@ -137,11 +141,22 @@
     export let tabIndex = 0;
 
     /**
+     * @deprecated Use `responseField` instead.
+     */
+    export let forms: RenderOptions['response-field'] = true;
+
+    /**
      * Controls if an input element with the response token is created.
      * - Data Attribute - `data-response-field`
      * @defaultValue true
      */
-    export let responseField: RenderOptions['response-field'] = true;
+    export let responseField: RenderOptions['response-field'] = true && forms;
+
+    /**
+     * @deprecated Use `responseFieldName` instead.
+     */
+    export let formsField: RenderOptions['response-field-name'] =
+        'cf-turnstile-response';
 
     /**
      * Name of the input element.
@@ -149,7 +164,7 @@
      * @defaultValue "cf-turnstile-response"
      */
     export let responseFieldName: RenderOptions['response-field-name'] =
-        'cf-turnstile-response';
+        formsField || 'cf-turnstile-response';
 
     /**
      * Resets the widget.
@@ -167,15 +182,31 @@
          */
         'error-callback': {},
         /**
+         * @deprecated Use `error-callback` instead.
+         */
+        'turnstile-error': {},
+
+        /**
          * Callback invoked when the token expires and does not reset the widget.
          * - Data Attribute - `data-expired-callback`
          */
         'expired-callback': {},
         /**
+         * @deprecated Use `expired-callback` instead.
+         */
+        'turnstile-expired': {},
+
+        /**
          * Callback invoked when the challenge expires.
          * - Data Attribute - `data-timeout-callback`
          */
         'timeout-callback': {},
+
+        /**
+         * @deprecated Use `timeout-callback` instead.
+         */
+        'turnstile-timeout': {},
+
         /**
          * Callback invoked before the challenge enters interactive mode.
          * - Data Attribute - `data-before-interactive-callback`
@@ -186,6 +217,7 @@
          * - Data Attribute - `data-after-interactive-callback`
          */
         'after-interactive-callback': {},
+
         /**
          * Callback invoked when a given client/browser is not supported.
          * - Data Attribute - `data-unsupported-callback`
@@ -196,7 +228,10 @@
     const turnstileAction: Action = (node) => {
         const id = window.turnstile.render(node, {
             sitekey: siteKey,
-            callback: (token: string) => dispatch('callback', { token }),
+            callback: (token: string) => {
+                dispatch('callback', { token });
+                dispatch('turnstile-callback', { token });
+            },
             ...Object.fromEntries(
                 Object.keys(events).map((event) => [
                     event,
