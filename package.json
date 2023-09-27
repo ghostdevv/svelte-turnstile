@@ -37,6 +37,12 @@
 		"url": "https://github.com/ghostdevv/svelte-turnstile/issues"
 	},
 	"author": "GHOST <ghostdevbusiness@gmail.com> (https://ghostdev.xyz)",
+	"contributors": [
+		{
+			"name": "Braden Wiggins",
+			"email": "braden@fracal-hq.com"
+		}
+	],
 	"exports": {
 		"./package.json": "./package.json",
 		".": {
