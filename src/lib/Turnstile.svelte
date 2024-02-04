@@ -7,25 +7,16 @@
 </script>
 
 <script lang="ts">
-    import type { RenderOptions, TurnstileObject, WidgetId } from './types.d';
-    import type { Action } from 'svelte/action';
-
+    import type {
+        RenderParameters,
+        TurnstileObject,
+        WidgetId,
+    } from 'turnstile-types';
     import { createEventDispatcher, onMount } from 'svelte';
+    import type { Action } from 'svelte/action';
+    import type { Events } from './types';
 
-    const dispatch = createEventDispatcher<
-        {
-            /**
-             * Callback function invoked upon successful challenge completion.
-             * - Data Attribute - `data-callback`
-             * @param token - The token passed upon successful challenge.
-             */
-            callback: { token: string };
-            /**
-             * @deprecated Use `callback` instead.
-             */
-            'turnstile-callback': { token: string };
-        } & typeof events
-    >();
+    const dispatch = createEventDispatcher<Events>();
 
     let loaded = windowHasTurnstile();
     let mounted = false;
@@ -34,7 +25,7 @@
      * Represents a rendered Turnstile widget.  Used to identify a specific widget when calling
      * Turnstile methods.
      */
-    let widgetId: WidgetId;
+    export let widgetId: WidgetId | null = null;
 
     /**
      * Turnstile is Cloudflare’s smart CAPTCHA alternative. It can be embedded into any website
@@ -50,7 +41,7 @@
      * widget configuration and is created upon the widget creation.
      * - Data Attribute - `data-sitekey`
      */
-    export let siteKey: RenderOptions['sitekey'];
+    export let siteKey: RenderParameters['sitekey'];
 
     /**
      * Controls when the widget is visible:
@@ -63,14 +54,14 @@
      * @see
      * [appearance-modes](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#appearance-modes)
      */
-    export let appearance: RenderOptions['appearance'] = 'always';
+    export let appearance: RenderParameters['appearance'] = 'always';
 
     /**
      * Language to display, either `"auto"` or an ISO 639-1 two-letter language code.
      * - Data Attribute - `data-language`
      * @see [language support FAQ](https://developers.cloudflare.com/turnstile/frequently-asked-questions/#what-languages-does-turnstile-support)
      */
-    export let language: RenderOptions['language'] = 'auto' as const;
+    export let language: RenderParameters['language'] = 'auto' as const;
 
     /**
      * Execution controls when to obtain the token of the widget and can be on `"render"` (default) or on `"execute"`.
@@ -78,7 +69,7 @@
      * @defaultValue "render"
      * @see [Execution modes](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#execution-modes)
      */
-    export let execution: RenderOptions['execution'] = 'render';
+    export let execution: RenderParameters['execution'] = 'render';
 
     /**
      * A customer value that can be used to differentiate widgets under the same
@@ -86,7 +77,7 @@
      * contain up to 32 alphanumeric characters including `_` and `-`.
      * - Data Attribute - `data-action`
      */
-    export let action: RenderOptions['action'] = undefined;
+    export let action: RenderParameters['action'] = undefined;
 
     /**
      * A customer payload that can be used to attach customer data to the challenge
@@ -94,8 +85,7 @@
      * contain up to 255 alphanumeric characters including `_` and `-`.
      * - Data Attribute - `data-cdata`
      */
-    export let cData: RenderOptions['cData'] =
-        undefined as any as RenderOptions['cData'];
+    export let cData: RenderParameters['cData'] = undefined;
 
     /**
      * Time between retry attempts in milliseconds. Value must be between `0` and `900000`
@@ -103,14 +93,14 @@
      * - Data Attribute - `data-retry-interval`
      * @defaultValue 8000
      */
-    export let retryInterval: RenderOptions['retry-interval'] = 8000;
+    export let retryInterval: RenderParameters['retry-interval'] = 8000;
 
     /**
      * Automatically retry upon failure to obtain a token or never retry.
      * - Data Attribute - `data-retry`
      * @defaultValue "auto"
      */
-    export let retry: RenderOptions['retry'] = 'auto';
+    export let retry: RenderParameters['retry'] = 'auto';
 
     /**
      * Controls the behavior when the token of a Turnstile widget has expired.
@@ -118,20 +108,20 @@
      * - Data Attribute - `data-refresh-expired`
      * @defaultValue "auto"
      */
-    export let refreshExpired: RenderOptions['refresh-expired'] = 'auto';
+    export let refreshExpired: RenderParameters['refresh-expired'] = 'auto';
 
     /**
      * The widget theme. Can be `"light"`, `"dark"`, or `"auto"`.
      * - Data Attribute - `data-theme`
      */
-    export let theme: RenderOptions['theme'] = 'auto';
+    export let theme: RenderParameters['theme'] = 'auto';
 
     /**
      * The widget size. Can be 'normal' or 'compact'.
      * - Data Attribute - `data-size`
      * @defaultValue "normal"
      */
-    export let size: RenderOptions['size'] = 'normal';
+    export let size: RenderParameters['size'] = 'normal';
 
     /**
      * The tabindex of Turnstile's iframe for accessibility purposes.
@@ -143,19 +133,19 @@
     /**
      * @deprecated Use `responseField` instead.
      */
-    export let forms: RenderOptions['response-field'] = true;
+    export let forms: RenderParameters['response-field'] = true;
 
     /**
      * Controls if an input element with the response token is created.
      * - Data Attribute - `data-response-field`
      * @defaultValue true
      */
-    export let responseField: RenderOptions['response-field'] = true && forms;
+    export let responseField: RenderParameters['response-field'] = true;
 
     /**
      * @deprecated Use `responseFieldName` instead.
      */
-    export let formsField: RenderOptions['response-field-name'] =
+    export let formsField: RenderParameters['response-field-name'] =
         'cf-turnstile-response';
 
     /**
@@ -163,67 +153,16 @@
      * - Data Attribute - `data-response-field-name`
      * @defaultValue "cf-turnstile-response"
      */
-    export let responseFieldName: RenderOptions['response-field-name'] =
-        formsField || 'cf-turnstile-response';
+    export let responseFieldName: RenderParameters['response-field-name'] =
+        undefined;
 
     /**
      * Resets the widget.
      * @param widgetId - The ID of the widget.
      */
     export const reset: TurnstileObject['reset'] = (): void => {
-        window.turnstile.reset(widgetId);
+        widgetId && window?.turnstile?.reset(widgetId);
     };
-
-    const events = {
-        /**
-         * Callback invoked when there is an error (e.g., network error, challenge failed).
-         * - Data Attribute - `data-error-callback`
-         * @see [Client-side errors](https://developers.cloudflare.com/turnstile/reference/client-side-errors)
-         */
-        'error-callback': {},
-        /**
-         * @deprecated Use `error-callback` instead.
-         */
-        'turnstile-error': {},
-
-        /**
-         * Callback invoked when the token expires and does not reset the widget.
-         * - Data Attribute - `data-expired-callback`
-         */
-        'expired-callback': {},
-        /**
-         * @deprecated Use `expired-callback` instead.
-         */
-        'turnstile-expired': {},
-
-        /**
-         * Callback invoked when the challenge expires.
-         * - Data Attribute - `data-timeout-callback`
-         */
-        'timeout-callback': {},
-
-        /**
-         * @deprecated Use `timeout-callback` instead.
-         */
-        'turnstile-timeout': {},
-
-        /**
-         * Callback invoked before the challenge enters interactive mode.
-         * - Data Attribute - `data-before-interactive-callback`
-         */
-        'before-interactive-callback': {},
-        /**
-         * Callback invoked when the challenge has left interactive mode.
-         * - Data Attribute - `data-after-interactive-callback`
-         */
-        'after-interactive-callback': {},
-
-        /**
-         * Callback invoked when a given client/browser is not supported.
-         * - Data Attribute - `data-unsupported-callback`
-         */
-        'unsupported-callback': {},
-    } as const;
 
     const turnstileAction: Action = (node) => {
         const id = window.turnstile.render(node, {
@@ -232,16 +171,10 @@
                 dispatch('callback', { token });
                 dispatch('turnstile-callback', { token });
             },
-            ...Object.fromEntries(
-                Object.keys(events).map((event) => [
-                    event,
-                    () => dispatch(event as keyof typeof events, {}),
-                ]),
-            ),
-            'response-field-name': responseFieldName,
+            'response-field-name': formsField || responseFieldName,
+            'response-field': forms ?? responseField ?? true,
             'refresh-expired': refreshExpired,
             'retry-interval': retryInterval,
-            'response-field': responseField,
             tabindex: tabIndex,
             appearance,
             execution,
