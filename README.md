@@ -29,8 +29,8 @@ The only required prop is the `siteKey` which you can get from [adding a site he
 ## Props
 
 | Prop            | Type                                          | Description                                                                                    | Required |
-|-----------------|-----------------------------------------------|------------------------------------------------------------------------------------------------|----------|
-| `siteKey`       | `string`                                      | sitekey for your website                                                                       | ✅        |
+| --------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------- | -------- |
+| `siteKey`       | `string`                                      | sitekey for your website                                                                       | ✅       |
 | `theme`         | `'light' \| 'dark' \| 'auto'`                 | colour theme of the widget (defaults to `auto`)                                                |          |
 | `size`          | `'normal' \| 'compact'`                       | size of the widget (defaults to `normal`)                                                      |          |
 | `action`        | `string`                                      | A string that can be used to differentiate widgets, returned on validation                     |          |
@@ -44,13 +44,12 @@ The only required prop is the `siteKey` which you can get from [adding a site he
 | `execution`     | `'render' \| 'execute'`                       | controls when to obtain the token of the widget (default `render`)                             |          |
 | `appearance`    | `'always' \| 'execute' \| 'interaction-only'` | controls when the widget is visible. (default `always`)                                        |          |
 
-
 For more information about some of the props and a list of `SupportedLanguage`'s [checkout the Cloudflare Documentation](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#configurations).
 
 ## Events
 
 | Event                         | Data                | Description                                                    |
-|-------------------------------|---------------------|----------------------------------------------------------------|
+| ----------------------------- | ------------------- | -------------------------------------------------------------- |
 | `callback`                    | `{ token: string }` | Emitted when a user passes a challenge                         |
 | `error-callback`              | `{}`                | Emitted when a user fails verification                         |
 | `expired-callback`            | `{}`                | Emitted when a challenge expires and does not reset the widget |
@@ -105,6 +104,7 @@ async function validateToken(token: string, secret: string) {
 In SvelteKit we can use form actions to easily setup a form with a captcha:
 
 `routes/login/+page.svelte`
+
 ```html
 <script>
     import { Turnstile } from 'svelte-turnstile';
@@ -123,6 +123,7 @@ In SvelteKit we can use form actions to easily setup a form with a captcha:
 ```
 
 `routes/login/+page.server.js`
+
 ```js
 // Copy and paste the validateToken function from above here
 
@@ -130,8 +131,8 @@ export const actions = {
     default: async ({ request }) => {
         const data = await request.formData();
 
-        const token = data.get('cf-turnstile-response') // if you edited the formsField option change this
-        const SECRET_KEY = '...' // you should use $env module for secrets
+        const token = data.get('cf-turnstile-response'); // if you edited the formsField option change this
+        const SECRET_KEY = '...'; // you should use $env module for secrets
 
         const { success, error } = await validateToken(token, SECRET_KEY);
 
@@ -141,8 +142,8 @@ export const actions = {
             };
 
         // do something, the captcha is valid!
-    }
-}
+    },
+};
 ```
 
 # Resetting
