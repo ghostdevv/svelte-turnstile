@@ -5,7 +5,7 @@
 		"dev": "vite dev",
 		"package": "svelte-kit sync && svelte-package",
 		"build": "vite build",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json && publint",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
@@ -14,6 +14,7 @@
 		"@sveltejs/package": "^2.3.2",
 		"@sveltejs/vite-plugin-svelte": "^3.1.1",
 		"ghostsui": "^1.6.0",
+		"publint": "^0.2.8",
 		"sass": "^1.77.6",
 		"svelte": "^4.2.18",
 		"svelte-check": "^3.8.4",
