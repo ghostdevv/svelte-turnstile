@@ -66,7 +66,7 @@
     /**
      * Execution controls when to obtain the token of the widget and can be on `"render"` (default) or on `"execute"`.
      * - Data Attribute - `data-execution`
-     * @defaultValue "render"
+     * @default "render"
      * @see [Execution modes](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#execution-modes)
      */
     export let execution: RenderParameters['execution'] = 'render';
@@ -91,14 +91,14 @@
      * Time between retry attempts in milliseconds. Value must be between `0` and `900000`
      * (15 minutes). Only applies when `retry` is set to `auto`.
      * - Data Attribute - `data-retry-interval`
-     * @defaultValue 8000
+     * @default 8000
      */
     export let retryInterval: RenderParameters['retry-interval'] = 8000;
 
     /**
      * Automatically retry upon failure to obtain a token or never retry.
      * - Data Attribute - `data-retry`
-     * @defaultValue "auto"
+     * @default "auto"
      */
     export let retry: RenderParameters['retry'] = 'auto';
 
@@ -106,7 +106,7 @@
      * Controls the behavior when the token of a Turnstile widget has expired.
      * Can be 'auto', 'manual', or 'never'.
      * - Data Attribute - `data-refresh-expired`
-     * @defaultValue "auto"
+     * @default "auto"
      */
     export let refreshExpired: RenderParameters['refresh-expired'] = 'auto';
 
@@ -119,14 +119,14 @@
     /**
      * The widget size. Can be 'normal' or 'compact'.
      * - Data Attribute - `data-size`
-     * @defaultValue "normal"
+     * @default "normal"
      */
     export let size: RenderParameters['size'] = 'normal';
 
     /**
      * The tabindex of Turnstile's iframe for accessibility purposes.
      * - Data Attribute - `data-tabindex`
-     * @defaultValue 0
+     * @default 0
      */
     export let tabIndex = 0;
 
@@ -138,7 +138,7 @@
     /**
      * Controls if an input element with the response token is created.
      * - Data Attribute - `data-response-field`
-     * @defaultValue true
+     * @default true
      */
     export let responseField: RenderParameters['response-field'] = true;
 
@@ -151,7 +151,7 @@
     /**
      * Name of the input element.
      * - Data Attribute - `data-response-field-name`
-     * @defaultValue "cf-turnstile-response"
+     * @default "cf-turnstile-response"
      */
     export let responseFieldName: RenderParameters['response-field-name'] =
         undefined;
