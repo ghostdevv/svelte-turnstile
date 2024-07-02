@@ -200,28 +200,26 @@
         return 'turnstile' in window;
     }
 
-    function load() {
-        loaded = true;
-    }
-
     onMount(() => {
         mounted = true;
+
+        if (!loaded) {
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src =
+                'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+            script.async = true;
+            script.addEventListener('load', () => (loaded = true), {
+                once: true,
+            });
+            document.head.appendChild(script);
+        }
 
         return () => {
             mounted = false;
         };
     });
 </script>
-
-<svelte:head>
-    {#if mounted && !loaded}
-        <script
-            async
-            src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-            on:load={load}>
-        </script>
-    {/if}
-</svelte:head>
 
 {#if loaded && mounted}
     {#key $$props}
