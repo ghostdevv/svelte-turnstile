@@ -28,41 +28,46 @@ The only required prop is the `siteKey` which you can get from [adding a site he
 
 ## Props
 
-| Prop            | Type                                          | Description                                                                                    | Required |
-| --------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------- | -------- |
-| `siteKey`       | `string`                                      | sitekey for your website                                                                       | ✅       |
-| `theme`         | `'light' \| 'dark' \| 'auto'`                 | colour theme of the widget (defaults to `auto`)                                                |          |
-| `size`          | `'normal' \| 'compact'`                       | size of the widget (defaults to `normal`)                                                      |          |
-| `action`        | `string`                                      | A string that can be used to differentiate widgets, returned on validation                     |          |
-| `cData`         | `string`                                      | A string that can attach customer data to a challange, returned on validation                  |          |
-| `tabIndex`      | `number`                                      | Used for accessibility (defaults to `0`)                                                       |          |
-| `forms`         | `boolean`                                     | if true the response token will be a property on the form data (default `true`)                |          |
-| `formsField`    | `string`                                      | the `name` of the input which will appear on the form data (default `cf-turnstile-response`)   |          |
-| `retry`         | `'auto' \| 'never'`                           | should the widget automatically retry to obtain a token if it did not succeed (default `auto`) |          |
-| `retryInterval` | `number`                                      | if `retry` is true, this controls the time between attempts in milliseconds (default `8000`)   |          |
-| `language`      | `SupportedLanguage \| 'auto'`                 | the language turnstile should use (default `auto`)                                             |          |
-| `execution`     | `'render' \| 'execute'`                       | controls when to obtain the token of the widget (default `render`)                             |          |
-| `appearance`    | `'always' \| 'execute' \| 'interaction-only'` | controls when the widget is visible. (default `always`)                                        |          |
+| Prop                | Type                                          | Description                                                                                    | Required |
+| ------------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------- | -------- |
+| `siteKey`           | `string`                                      | sitekey for your website                                                                       | ✅       |
+| `theme`             | `'light' \| 'dark' \| 'auto'`                 | colour theme of the widget (defaults to `auto`)                                                |          |
+| `size`              | `'normal' \| 'compact'`                       | size of the widget (defaults to `normal`)                                                      |          |
+| `action`            | `string`                                      | A string that can be used to differentiate widgets, returned on validation                     |          |
+| `cData`             | `string`                                      | A string that can attach customer data to a challange, returned on validation                  |          |
+| `tabIndex`          | `number`                                      | Used for accessibility (defaults to `0`)                                                       |          |
+| `responseField`     | `boolean`                                     | if true the response token will be a property on the form data (default `true`)                |          |
+| `responseFieldName` | `string`                                      | the `name` of the input which will appear on the form data (default `cf-turnstile-response`)   |          |
+| `retry`             | `'auto' \| 'never'`                           | should the widget automatically retry to obtain a token if it did not succeed (default `auto`) |          |
+| `retryInterval`     | `number`                                      | if `retry` is true, this controls the time between attempts in milliseconds (default `8000`)   |          |
+| `language`          | `SupportedLanguage \| 'auto'`                 | the language turnstile should use (default `auto`)                                             |          |
+| `execution`         | `'render' \| 'execute'`                       | controls when to obtain the token of the widget (default `render`)                             |          |
+| `appearance`        | `'always' \| 'execute' \| 'interaction-only'` | controls when the widget is visible. (default `always`)                                        |          |
 
 For more information about some of the props and a list of `SupportedLanguage`'s [checkout the Cloudflare Documentation](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#configurations).
 
+### Deprecated Props
+
+-   `forms` renamed to `responseField`
+-   `formsField` renamed to `responseFieldName`
+
 ## Events
 
-| Event                         | Data                | Description                                                    |
-| ----------------------------- | ------------------- | -------------------------------------------------------------- |
-| `callback`                    | `{ token: string }` | Emitted when a user passes a challenge                         |
-| `error-callback`              | `{}`                | Emitted when a user fails verification                         |
-| `expired-callback`            | `{}`                | Emitted when a challenge expires and does not reset the widget |
-| `timeout-callback`            | `{}`                | Emitted when a challenge expires and does reset the widget     |
-| `before-interactive-callback` | `{}`                | Emitted before the challenge enters interactive mode           |
-| `after-interactive-callback`  | `{}`                | Emitted when the challenge has left interactive mode           |
-| `unsupported-callback`        | `{}`                | Emitted when a given client/browser is not supported           |
+| Event                | Data                | Description                                                    |
+| -------------------- | ------------------- | -------------------------------------------------------------- |
+| `callback`           | `{ token: string }` | Emitted when a user passes a challenge                         |
+| `error`              | `{ code: string }`  | Emitted when a user fails verification                         |
+| `expired`            | `{}`                | Emitted when a challenge expires and does not reset the widget |
+| `timeout`            | `{}`                | Emitted when a challenge expires and does reset the widget     |
+| `before-interactive` | `{}`                | Emitted before the challenge enters interactive mode           |
+| `after-interactive`  | `{}`                | Emitted when the challenge has left interactive mode           |
+| `unsupported`        | `{}`                | Emitted when a given client/browser is not supported           |
 
 # Validate CAPTCHA
 
 We need to validate the captcha token server side before we do any action on the server, this is to ensure no forgery occured. We can create a simple validate function:
 
-If you are using a HTML Form and POSTing to a server you can get the `cf-turnstile-response` (or what you configured it to using the `formsField` option) property to get the `token`, otherwise you can use the `on:turnstile-callback` event in svelte to keep track of the token and send it to your backend.
+If you are using a HTML Form and POSTing to a server you can get the `cf-turnstile-response` (or what you configured it to using the `responseFieldName` option) property to get the `token`, otherwise you can use the `on:callback` event in svelte to keep track of the token and send it to your backend.
 
 ```ts
 interface TokenValidateResponse {
@@ -114,7 +119,7 @@ In SvelteKit we can use form actions to easily setup a form with a captcha:
 </script>
 
 {#if form?.error}
-    <p>{form?.error}</p>
+<p>{form?.error}</p>
 {/if}
 
 <form method="POST" action="/login">
@@ -166,3 +171,14 @@ If you need to manually reset the widget, you can do so by binding to the `reset
 
 -   Join the [discord](https://discord.gg/2Vd4wAjJnm)<br>
 -   Create a issue on the [github](https://github.com/ghostdevv/svelte-turnstile)
+
+# Notable Changes
+
+Full Changelog: https://github.com/ghostdevv/svelte-turnstile/releases
+
+- Deprecate `forms` prop in favour of `responseField`
+- Deprecate `formsField` prop in favour of `responseFieldName`
+- Deprecate the `on:turnstile-callback` event in favour of `on:callback`
+- Deprecate the `on:turnstile-error` event in favour of `on:error`
+- Deprecate the `on:turnstile-timeout` event in favour of `on:timeout`
+- Deprecate the `on:turnstile-expired` event in favour of `on:expired`
