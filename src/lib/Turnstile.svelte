@@ -1,11 +1,3 @@
-<script lang="ts" context="module">
-    declare global {
-        interface Window {
-            turnstile: TurnstileObject;
-        }
-    }
-</script>
-
 <script lang="ts">
     import { createEventDispatcher, onMount } from 'svelte';
     import type { Action } from 'svelte/action';
@@ -18,7 +10,7 @@
 
     const dispatch = createEventDispatcher<Events>();
 
-    let loaded = windowHasTurnstile();
+    let loaded = typeof window != 'undefined' && 'turnstile' in window;
     let mounted = false;
 
     /**
@@ -33,8 +25,7 @@
      * @see https://developers.cloudflare.com/turnstile
      */
     export let turnstile: TurnstileObject | null = null;
-    $: turnstile =
-        windowHasTurnstile() && window.turnstile ? window.turnstile : null;
+    $: turnstile = (loaded && window.turnstile) || null;
 
     /**
      * Every widget has a sitekey. This sitekey is associated with the corresponding
@@ -213,11 +204,6 @@
             },
         };
     };
-
-    function windowHasTurnstile() {
-        if (typeof window == 'undefined') return null;
-        return 'turnstile' in window;
-    }
 
     onMount(() => {
         mounted = true;
