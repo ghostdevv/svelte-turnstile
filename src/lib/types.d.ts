@@ -1,10 +1,29 @@
-import type { TurnstileOptions } from 'turnstile-types';
+export interface Events {
+    /**
+     * @deprecated Use `callback` instead.
+     */
+    'turnstile-callback': { token: string };
+    callback: { token: string };
 
-// Remove undefined from option
-export type Option<Key extends keyof TurnstileOptions> = Exclude<
-    TurnstileOptions[Key],
-    undefined
->;
+    /**
+     * @deprecated Use `error-callback` instead.
+     */
+    'turnstile-error': { code: string };
+    error: { code: string };
 
-export type TurnstileTheme = Option<'theme'>;
-export type TurnstileSize = Option<'size'>;
+    /**
+     * @deprecated Use `expired` instead.
+     */
+    'turnstile-expired': {};
+    expired: {};
+
+    /**
+     * @deprecated Use `timeout` instead.
+     */
+    'turnstile-timeout': {};
+    timeout: {};
+
+    'before-interactive': {};
+    'after-interactive': {};
+    unsupported: {};
+}

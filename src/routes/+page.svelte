@@ -1,7 +1,9 @@
 <script lang="ts">
-    import { Turnstile, type TurnstileSize, type TurnstileTheme } from '$lib';
+    import type { TurnstileTheme, TurnstileSize } from '$lib';
     import type { ActionData } from './$types';
+
     import { enhance } from '$app/forms';
+    import { Turnstile } from '$lib';
 
     export let form: ActionData;
 
@@ -66,7 +68,7 @@
 
 <section>
     <form method="POST" use:enhance>
-        <Turnstile {size} {siteKey} {theme} bind:reset />
+        <Turnstile {size} {theme} {siteKey} bind:reset />
         <input type="hidden" name="secret" bind:value={secretKey} />
 
         <div class="row">
@@ -78,8 +80,6 @@
     <p style="margin-top: 8px;">
         {#if form}
             {form.error ? `Error: ${form.error}` : 'Success'}
-        {:else}
-            Not submitted form
         {/if}
     </p>
 </section>
