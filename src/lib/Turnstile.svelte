@@ -7,14 +7,14 @@
 </script>
 
 <script lang="ts">
+    import { createEventDispatcher, onMount } from 'svelte';
+    import type { Action } from 'svelte/action';
+    import type { Events } from './types';
     import type {
         RenderParameters,
         TurnstileObject,
         WidgetId,
     } from 'turnstile-types';
-    import { createEventDispatcher, onMount } from 'svelte';
-    import type { Action } from 'svelte/action';
-    import type { Events } from './types';
 
     const dispatch = createEventDispatcher<Events>();
 
@@ -171,6 +171,25 @@
                 dispatch('callback', { token });
                 dispatch('turnstile-callback', { token });
             },
+            'error-callback': (code) => {
+                dispatch('error', { code });
+                dispatch('turnstile-error', { code });
+            },
+            'timeout-callback': () => {
+                dispatch('timeout', {});
+                dispatch('turnstile-timeout', {});
+            },
+            'expired-callback': () => {
+                dispatch('expired', {});
+                dispatch('turnstile-expired', {});
+            },
+            'before-interactive-callback': () => {
+                dispatch('before-interactive', {});
+            },
+            'after-interactive-callback': () => {
+                dispatch('after-interactive', {});
+            },
+            'unsupported-callback': () => dispatch('unsupported', {}),
             'response-field-name': formsField || responseFieldName,
             'response-field': forms ?? responseField ?? true,
             'refresh-expired': refreshExpired,
@@ -184,7 +203,7 @@
             theme,
             cData,
             size,
-        })!;
+        });
 
         widgetId = id;
 

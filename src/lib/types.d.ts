@@ -8,22 +8,22 @@ export interface Events {
     /**
      * @deprecated Use `error-callback` instead.
      */
-    'turnstile-error': {};
-    'error-callback': {};
+    'turnstile-error': { code: string };
+    error: { code: string };
 
     /**
-     * @deprecated Use `expired-callback` instead.
+     * @deprecated Use `expired` instead.
      */
     'turnstile-expired': {};
-    'expired-callback': {};
+    expired: {};
 
     /**
-     * @deprecated Use `timeout-callback` instead.
+     * @deprecated Use `timeout` instead.
      */
     'turnstile-timeout': {};
-    'timeout-callback': {};
+    timeout: {};
 
-    'before-interactive-callback': {};
-    'after-interactive-callback': {};
-    'unsupported-callback': {};
+    'before-interactive': {};
+    'after-interactive': {};
+    unsupported: {};
 }
