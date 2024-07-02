@@ -9,23 +9,23 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "2.1.0",
-		"@sveltejs/kit": "1.20.2",
-		"@sveltejs/package": "^2.1.0",
+		"@sveltejs/adapter-auto": "3.2.2",
+		"@sveltejs/kit": "2.5.18",
+		"@sveltejs/package": "^2.3.2",
+		"@sveltejs/vite-plugin-svelte": "^3.1.1",
 		"ghostsui": "^1.6.0",
-		"sass": "^1.63.6",
-		"svelte": "^3.59.2",
-		"svelte-check": "^3.4.4",
-		"svelte-preprocess": "^5.0.4",
-		"tslib": "^2.5.3",
-		"typescript": "^5.1.3",
-		"vite": "^4.3.9"
+		"sass": "^1.77.6",
+		"svelte": "^4.2.18",
+		"svelte-check": "^3.8.4",
+		"tslib": "^2.6.3",
+		"typescript": "^5.5.3",
+		"vite": "^5.3.2"
 	},
 	"peerDependencies": {
 		"svelte": "^3.58.0 || ^4.0.0"
 	},
 	"dependencies": {
-		"turnstile-types": "^1.2.0"
+		"turnstile-types": "^1.2.1"
 	},
 	"type": "module",
 	"repository": {
