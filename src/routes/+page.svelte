@@ -68,15 +68,7 @@
 
 <section>
     <form method="POST" use:enhance>
-        <Turnstile
-            {size}
-            {theme}
-            {siteKey}
-            bind:reset
-            appearance="interaction-only"
-            on:turnstile-before-interactive={() => {
-                alert('before-interactive');
-            }} />
+        <Turnstile {size} {theme} {siteKey} bind:reset />
         <input type="hidden" name="secret" bind:value={secretKey} />
 
         <div class="row">
