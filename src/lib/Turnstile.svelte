@@ -34,6 +34,16 @@
     onMount(() => {
         mounted = true;
 
+        if (!loaded) {
+            let script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src =
+                'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+            script.async = true;
+            script.addEventListener('load', loadCallback);
+            document.head.appendChild(script);
+        }
+
         return () => {
             mounted = false;
         };
@@ -100,15 +110,6 @@
         };
     };
 </script>
-
-<svelte:head>
-    {#if mounted && !loaded}
-        <script
-            src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-            on:load={loadCallback}
-            async></script>
-    {/if}
-</svelte:head>
 
 {#if loaded && mounted}
     {#key $$props}
