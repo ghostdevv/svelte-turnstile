@@ -30,7 +30,6 @@
     /**
      * Every widget has a sitekey. This sitekey is associated with the corresponding
      * widget configuration and is created upon the widget creation.
-     * - Data Attribute - `data-sitekey`
      */
     export let siteKey: RenderParameters['sitekey'];
 
@@ -41,7 +40,6 @@
      * - `"interaction-only"` - The widget is visible only when an interaction is required.
      *
      * If a widget is visible, its appearance can be controlled via the `appearance` parameter.
-     * - Data Attribute - `data-appearance`
      * @see
      * [appearance-modes](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#appearance-modes)
      */
@@ -49,14 +47,12 @@
 
     /**
      * Language to display, either `"auto"` or an ISO 639-1 two-letter language code.
-     * - Data Attribute - `data-language`
      * @see [language support FAQ](https://developers.cloudflare.com/turnstile/frequently-asked-questions/#what-languages-does-turnstile-support)
      */
     export let language: RenderParameters['language'] = 'auto' as const;
 
     /**
      * Execution controls when to obtain the token of the widget and can be on `"render"` (default) or on `"execute"`.
-     * - Data Attribute - `data-execution`
      * @default "render"
      * @see [Execution modes](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#execution-modes)
      */
@@ -66,7 +62,6 @@
      * A customer value that can be used to differentiate widgets under the same
      * sitekey in analytics and which is returned upon validation. This can only
      * contain up to 32 alphanumeric characters including `_` and `-`.
-     * - Data Attribute - `data-action`
      */
     export let action: RenderParameters['action'] = undefined;
 
@@ -74,21 +69,18 @@
      * A customer payload that can be used to attach customer data to the challenge
      * throughout its issuance and which is returned upon validation. This can only
      * contain up to 255 alphanumeric characters including `_` and `-`.
-     * - Data Attribute - `data-cdata`
      */
     export let cData: RenderParameters['cData'] = undefined;
 
     /**
      * Time between retry attempts in milliseconds. Value must be between `0` and `900000`
      * (15 minutes). Only applies when `retry` is set to `auto`.
-     * - Data Attribute - `data-retry-interval`
      * @default 8000
      */
     export let retryInterval: RenderParameters['retry-interval'] = 8000;
 
     /**
      * Automatically retry upon failure to obtain a token or never retry.
-     * - Data Attribute - `data-retry`
      * @default "auto"
      */
     export let retry: RenderParameters['retry'] = 'auto';
@@ -96,27 +88,23 @@
     /**
      * Controls the behavior when the token of a Turnstile widget has expired.
      * Can be 'auto', 'manual', or 'never'.
-     * - Data Attribute - `data-refresh-expired`
      * @default "auto"
      */
     export let refreshExpired: RenderParameters['refresh-expired'] = 'auto';
 
     /**
      * The widget theme. Can be `"light"`, `"dark"`, or `"auto"`.
-     * - Data Attribute - `data-theme`
      */
     export let theme: RenderParameters['theme'] = 'auto';
 
     /**
      * The widget size. Can be 'normal' or 'compact'.
-     * - Data Attribute - `data-size`
      * @default "normal"
      */
     export let size: RenderParameters['size'] = 'normal';
 
     /**
      * The tabindex of Turnstile's iframe for accessibility purposes.
-     * - Data Attribute - `data-tabindex`
      * @default 0
      */
     export let tabIndex = 0;
@@ -128,7 +116,6 @@
 
     /**
      * Controls if an input element with the response token is created.
-     * - Data Attribute - `data-response-field`
      * @default true
      */
     export let responseField: RenderParameters['response-field'] = true;
@@ -141,7 +128,6 @@
 
     /**
      * Name of the input element.
-     * - Data Attribute - `data-response-field-name`
      * @default "cf-turnstile-response"
      */
     export let responseFieldName: RenderParameters['response-field-name'] =
