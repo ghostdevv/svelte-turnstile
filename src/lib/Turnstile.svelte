@@ -35,12 +35,14 @@
         mounted = true;
 
         if (!loaded) {
-            let script = document.createElement('script');
+            const script = document.createElement('script');
             script.type = 'text/javascript';
             script.src =
                 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
             script.async = true;
-            script.addEventListener('load', loadCallback);
+            script.addEventListener('load', () => (loaded = true), {
+                once: true,
+            });
             document.head.appendChild(script);
         }
 
@@ -52,10 +54,6 @@
     function hasTurnstile() {
         if (typeof window == 'undefined') return null;
         return 'turnstile' in window;
-    }
-
-    function loadCallback() {
-        loaded = true;
     }
 
     function error() {
