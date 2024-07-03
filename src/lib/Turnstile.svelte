@@ -134,6 +134,13 @@
         undefined;
 
     /**
+     * Classes to apply to the wrapper div around turnstile.
+     * This won't work with Svelte scoped styles.
+     */
+    let _class: string | undefined = undefined;
+    export { _class as class };
+
+    /**
      * Resets the widget.
      * @param widgetId - The ID of the widget.
      */
@@ -214,6 +221,6 @@
 
 {#if loaded && mounted}
     {#key $$props}
-        <div use:turnstileAction />
+        <div use:turnstileAction class={_class} />
     {/key}
 {/if}
