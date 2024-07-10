@@ -112,19 +112,18 @@
     /**
      * @deprecated Use `responseField` instead.
      */
-    export let forms: RenderParameters['response-field'] = true;
+    export let forms: RenderParameters['response-field'] = undefined;
 
     /**
      * Controls if an input element with the response token is created.
      * @default true
      */
-    export let responseField: RenderParameters['response-field'] = true;
+    export let responseField: RenderParameters['response-field'] = undefined;
 
     /**
      * @deprecated Use `responseFieldName` instead.
      */
-    export let formsField: RenderParameters['response-field-name'] =
-        'cf-turnstile-response';
+    export let formsField: RenderParameters['response-field-name'] = undefined;
 
     /**
      * Name of the input element.
@@ -174,8 +173,9 @@
                 dispatch('after-interactive', {});
             },
             'unsupported-callback': () => dispatch('unsupported', {}),
-            'response-field-name': formsField || responseFieldName,
-            'response-field': forms ?? responseField ?? true,
+            'response-field-name':
+                responseFieldName ?? formsField ?? 'cf-turnstile-response',
+            'response-field': responseField ?? forms ?? true,
             'refresh-expired': refreshExpired,
             'retry-interval': retryInterval,
             tabindex: tabIndex,
