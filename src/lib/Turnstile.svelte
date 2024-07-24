@@ -221,6 +221,6 @@
 
 {#if loaded && mounted}
     {#key $$props}
-        <div use:turnstileAction class={_class} />
+        <div use:turnstileAction class={_class}></div>
     {/key}
 {/if}
