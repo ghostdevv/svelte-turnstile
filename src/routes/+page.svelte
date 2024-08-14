@@ -61,6 +61,7 @@
 
         <select bind:value={size}>
             <option value="normal">Normal</option>
+            <option value="flexible">Flexible</option>
             <option value="compact">Compact</option>
         </select>
     </label>
@@ -68,7 +69,7 @@
 
 <section>
     <form method="POST" use:enhance>
-        <Turnstile {size} {theme} {siteKey} bind:reset />
+        <Turnstile {size} {theme} {siteKey} class="widget" bind:reset />
         <input type="hidden" name="secret" bind:value={secretKey} />
 
         <div class="row">
@@ -89,5 +90,10 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
+    }
+
+    :global(.widget) {
+        width: 50%;
+        max-width: 600px;
     }
 </style>
