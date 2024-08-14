@@ -221,6 +221,16 @@
 
 {#if loaded && mounted}
     {#key $$props}
-        <div use:turnstileAction class={_class} />
+        <div
+            use:turnstileAction
+            class:flexible={size == 'flexible'}
+            class={_class} />
     {/key}
 {/if}
+
+<style>
+    :where(.flexible) {
+        min-width: 300px;
+        width: 100%;
+    }
+</style>

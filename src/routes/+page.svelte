@@ -69,7 +69,7 @@
 
 <section>
     <form method="POST" use:enhance>
-        <Turnstile {size} {theme} {siteKey} class="widget" bind:reset />
+        <Turnstile {size} {theme} {siteKey} bind:reset />
         <input type="hidden" name="secret" bind:value={secretKey} />
 
         <div class="row">
@@ -92,7 +92,7 @@
         gap: 8px;
     }
 
-    :global(.widget) {
+    form {
         width: 50%;
         max-width: 600px;
     }
