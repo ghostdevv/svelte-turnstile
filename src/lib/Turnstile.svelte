@@ -98,7 +98,7 @@
     export let theme: RenderParameters['theme'] = 'auto';
 
     /**
-     * The widget size. Can be 'normal' or 'compact'.
+     * The widget size. Can be 'normal', 'flexible', or 'compact'.
      * @default "normal"
      */
     export let size: RenderParameters['size'] = 'normal';
@@ -221,6 +221,16 @@
 
 {#if loaded && mounted}
     {#key $$props}
-        <div use:turnstileAction class={_class} />
+        <div
+            use:turnstileAction
+            class:flexible={size == 'flexible'}
+            class={_class} />
     {/key}
 {/if}
+
+<style>
+    :where(.flexible) {
+        min-width: 300px;
+        width: 100%;
+    }
+</style>

@@ -32,7 +32,7 @@ The only required prop is the `siteKey` which you can get from [adding a site he
 | ------------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------- | -------- |
 | `siteKey`           | `string`                                      | sitekey for your website                                                                       | ✅       |
 | `theme`             | `'light' \| 'dark' \| 'auto'`                 | colour theme of the widget (defaults to `auto`)                                                |          |
-| `size`              | `'normal' \| 'compact'`                       | size of the widget (defaults to `normal`)                                                      |          |
+| `size`              | `'normal' \| 'flexible' \| 'compact'`         | size of the widget (defaults to `normal`)                                                      |          |
 | `action`            | `string`                                      | A string that can be used to differentiate widgets, returned on validation                     |          |
 | `cData`             | `string`                                      | A string that can attach customer data to a challange, returned on validation                  |          |
 | `tabIndex`          | `number`                                      | Used for accessibility (defaults to `0`)                                                       |          |
@@ -176,9 +176,9 @@ If you need to manually reset the widget, you can do so by binding to the `reset
 
 Full Changelog: https://github.com/ghostdevv/svelte-turnstile/releases
 
-- Deprecate `forms` prop in favour of `responseField`
-- Deprecate `formsField` prop in favour of `responseFieldName`
-- Deprecate the `on:turnstile-callback` event in favour of `on:callback`
-- Deprecate the `on:turnstile-error` event in favour of `on:error`
-- Deprecate the `on:turnstile-timeout` event in favour of `on:timeout`
-- Deprecate the `on:turnstile-expired` event in favour of `on:expired`
+-   Deprecate `forms` prop in favour of `responseField`
+-   Deprecate `formsField` prop in favour of `responseFieldName`
+-   Deprecate the `on:turnstile-callback` event in favour of `on:callback`
+-   Deprecate the `on:turnstile-error` event in favour of `on:error`
+-   Deprecate the `on:turnstile-timeout` event in favour of `on:timeout`
+-   Deprecate the `on:turnstile-expired` event in favour of `on:expired`

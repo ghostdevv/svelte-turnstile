@@ -26,7 +26,7 @@
 		"svelte": "^3.58.0 || ^4.0.0"
 	},
 	"dependencies": {
-		"turnstile-types": "^1.2.1"
+		"turnstile-types": "^1.2.2"
 	},
 	"type": "module",
 	"repository": {

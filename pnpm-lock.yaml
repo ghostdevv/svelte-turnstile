@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   turnstile-types:
-    specifier: ^1.2.1
-    version: 1.2.1
+    specifier: ^1.2.2
+    version: 1.2.2
 
 devDependencies:
   '@sveltejs/adapter-auto':
@@ -1264,8 +1264,8 @@ packages:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
     dev: true
 
-  /turnstile-types@1.2.1:
-    resolution: {integrity: sha512-PZFcUDFvPvmmwb885JA/N+8Pg5xNWw/UGMABRb/vI9P8cZ4pLDCpBDzgw7oKQ67DYvboTxNhfTAu93gjX4uNbQ==}
+  /turnstile-types@1.2.2:
+    resolution: {integrity: sha512-FlsojSOGe7OxdC5UXVXVyNV3zdWTSaC6tG6cLPWeTSkcBuCzPP+0xUwc1l090ISDcfDEt398GLbXopcGZesY/A==}
     dev: false
 
   /typescript@5.5.3:
