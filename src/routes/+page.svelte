@@ -1,11 +1,9 @@
 <script lang="ts">
 	import type { TurnstileTheme, TurnstileSize } from '$lib';
-	import type { ActionData } from './$types';
-
 	import { enhance } from '$app/forms';
 	import { Turnstile } from '$lib';
 
-	export let form: ActionData;
+	export let form;
 
 	let secretKey = '1x0000000000000000000000000000000AA';
 	let siteKey = '1x00000000000000000000AA';
