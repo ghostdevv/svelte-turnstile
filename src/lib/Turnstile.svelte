@@ -147,53 +147,62 @@
 		widgetId && window?.turnstile?.reset(widgetId);
 	};
 
-	const turnstileAction: Action = (node) => {
-		const id = window.turnstile.render(node, {
-			sitekey: siteKey,
-			callback: (token: string) => {
-				dispatch('callback', { token });
-				dispatch('turnstile-callback', { token });
-			},
-			'error-callback': (code) => {
-				dispatch('error', { code });
-				dispatch('turnstile-error', { code });
-			},
-			'timeout-callback': () => {
-				dispatch('timeout', {});
-				dispatch('turnstile-timeout', {});
-			},
-			'expired-callback': () => {
-				dispatch('expired', {});
-				dispatch('turnstile-expired', {});
-			},
-			'before-interactive-callback': () => {
-				dispatch('before-interactive', {});
-			},
-			'after-interactive-callback': () => {
-				dispatch('after-interactive', {});
-			},
-			'unsupported-callback': () => dispatch('unsupported', {}),
-			'response-field-name':
-				responseFieldName ?? formsField ?? 'cf-turnstile-response',
-			'response-field': responseField ?? forms ?? true,
-			'refresh-expired': refreshExpired,
-			'retry-interval': retryInterval,
-			tabindex: tabIndex,
-			appearance,
-			execution,
-			language,
-			action,
-			retry,
-			theme,
-			cData,
-			size,
-		});
+	$: renderParams = {
+		sitekey: siteKey,
+		callback: (token: string) => {
+			dispatch('callback', { token });
+			dispatch('turnstile-callback', { token });
+		},
+		'error-callback': (code) => {
+			dispatch('error', { code });
+			dispatch('turnstile-error', { code });
+		},
+		'timeout-callback': () => {
+			dispatch('timeout', {});
+			dispatch('turnstile-timeout', {});
+		},
+		'expired-callback': () => {
+			dispatch('expired', {});
+			dispatch('turnstile-expired', {});
+		},
+		'before-interactive-callback': () => {
+			dispatch('before-interactive', {});
+		},
+		'after-interactive-callback': () => {
+			dispatch('after-interactive', {});
+		},
+		'unsupported-callback': () => dispatch('unsupported', {}),
+		'response-field-name':
+			responseFieldName ?? formsField ?? 'cf-turnstile-response',
+		'response-field': responseField ?? forms ?? true,
+		'refresh-expired': refreshExpired,
+		'retry-interval': retryInterval,
+		tabindex: tabIndex,
+		appearance,
+		execution,
+		language,
+		action,
+		retry,
+		theme,
+		cData,
+		size,
+	} satisfies RenderParameters;
 
+	const turnstileAction: Action<HTMLElement, RenderParameters> = (
+		node: HTMLElement,
+		renderParams: RenderParameters,
+	) => {
+		let id = window.turnstile.render(node, renderParams);
 		widgetId = id;
 
 		return {
-			destroy: () => {
+			destroy() {
 				window.turnstile.remove(id);
+			},
+			update(newRenderParams) {
+				window.turnstile.remove(id);
+				id = window.turnstile.render(node, newRenderParams);
+				widgetId = id;
 			},
 		};
 	};
@@ -220,13 +229,11 @@
 </script>
 
 {#if loaded && mounted}
-	{#key $$props}
-		<div
-			use:turnstileAction
-			class:flexible={size == 'flexible'}
-			class={_class}>
-		</div>
-	{/key}
+	<div
+		use:turnstileAction={renderParams}
+		class:flexible={size == 'flexible'}
+		class={_class}>
+	</div>
 {/if}
 
 <style>
