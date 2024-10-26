@@ -3,14 +3,14 @@
 	import { enhance } from '$app/forms';
 	import { Turnstile } from '$lib';
 
-	const { form } = $props();
+	export let form;
 
-	let secretKey = $state('1x0000000000000000000000000000000AA');
-	let siteKey = $state('1x00000000000000000000AA');
-	let theme = $state<TurnstileTheme>('auto');
-	let size = $state<TurnstileSize>('normal');
+	let secretKey = '1x0000000000000000000000000000000AA';
+	let siteKey = '1x00000000000000000000AA';
+	let theme: TurnstileTheme = 'auto';
+	let size: TurnstileSize = 'normal';
 
-	let reset = $state<() => void>();
+	let reset: () => void | undefined;
 </script>
 
 <section class="row">
@@ -72,7 +72,7 @@
 
 		<div class="row">
 			<button>Validate</button>
-			<button type="button" onclick={() => reset?.()}>Reset</button>
+			<button type="button" on:click={() => reset?.()}>Reset</button>
 		</div>
 	</form>
 
