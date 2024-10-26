@@ -61,6 +61,7 @@
 
         <select bind:value={size}>
             <option value="normal">Normal</option>
+            <option value="flexible">Flexible</option>
             <option value="compact">Compact</option>
         </select>
     </label>
@@ -89,5 +90,10 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
+    }
+
+    form {
+        width: 50%;
+        max-width: 600px;
     }
 </style>
