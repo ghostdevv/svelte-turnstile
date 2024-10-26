@@ -1,36 +1,39 @@
 name: Release Package
 
 on:
-  release:
-    types: [created]
+    release:
+        types: [created]
 
 jobs:
-  publish-npm:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    publish-npm:
+        runs-on: ubuntu-latest
+        permissions:
+            id-token: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
 
-      - name: Setup Node 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: https://registry.npmjs.org/
+            - name: Setup Node 22
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  registry-url: https://registry.npmjs.org/
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v3.0.0
-        with:
-            version: 8.12.1
+            - name: Setup PNPM
+              uses: pnpm/action-setup@v4.0.0
+              with:
+                  version: 9.12.2
 
-      - name: Install
-        run: pnpm install
+            - name: Install
+              run: pnpm install --frozen-lockfile
 
-      - name: Build
-        run: pnpm package
+            - name: Build
+              run: pnpm package
 
-      - name: Publish
-        run: |
-          pnpm config set "//registry.npmjs.org/:_authToken" "${NPM_TOKEN}"
-          pnpm publish --no-git-checks
-        env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+            - name: Publish
+              run: |
+                  pnpm config set "//registry.npmjs.org/:_authToken" "${NPM_TOKEN}"
+                  pnpm publish --no-git-checks
+              env:
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  NPM_CONFIG_PROVENANCE: true
