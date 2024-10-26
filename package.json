@@ -29,6 +29,7 @@
 		"turnstile-types": "^1.2.2"
 	},
 	"type": "module",
+	"sideEffects": false,
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/ghostdevv/svelte-turnstile.git"
@@ -37,13 +38,11 @@
 	"bugs": {
 		"url": "https://github.com/ghostdevv/svelte-turnstile/issues"
 	},
-	"author": "GHOST <ghostdevbusiness@gmail.com> (https://ghostdev.xyz)",
+	"author": "Willow GHOST <ghostdevbusiness@gmail.com> (https://ghostdev.xyz)",
 	"contributors": [
-		{
-			"name": "Braden Wiggins",
-			"email": "braden@fracal-hq.com"
-		}
-	],
+        "Braden Wiggins <braden@fractal-hq.com> (https://fractal-hq.com/)",
+        "Willow GHOST <ghostdevbusiness@gmail.com> (https://ghostdev.xyz)"
+    ],
 	"exports": {
 		"./package.json": "./package.json",
 		".": {
