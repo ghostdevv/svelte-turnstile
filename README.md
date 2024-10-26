@@ -1,6 +1,6 @@
 # Svelte Turnstile
 
-Works with Svelte 3, 4, and 5 (experimental)!
+Works with Svelte 3, 4, and 5 (compatibility mode)!
 
 [Cloudflare's Turnstile](https://developers.cloudflare.com/turnstile/) is a new CAPTCHA alternative, this library allows you to easily integrate it into your svelte projects.
 
@@ -18,7 +18,7 @@ https://svelte-turnstile.pages.dev/
 
 The only required prop is the `siteKey` which you can get from [adding a site here](https://dash.cloudflare.com/?to=/:account/turnstile).
 
-```html
+```svelte
 <script>
     import { Turnstile } from 'svelte-turnstile';
 </script>
@@ -110,16 +110,15 @@ In SvelteKit we can use form actions to easily setup a form with a captcha:
 
 `routes/login/+page.svelte`
 
-```html
+```svelte
 <script>
     import { Turnstile } from 'svelte-turnstile';
 
-    /** @type {import('./$types').ActionData} */
-    export let form;
+    let { form } = $props();
 </script>
 
 {#if form?.error}
-<p>{form?.error}</p>
+    <p>{form?.error}</p>
 {/if}
 
 <form method="POST" action="/login">
@@ -155,12 +154,12 @@ export const actions = {
 
 If you need to manually reset the widget, you can do so by binding to the `reset` prop. For example:
 
-```html
+```svelte
 <script lang="ts">
-    let reset: () => void | undefined;
+    let reset = $state<() => void>();
 </script>
 
-<button on:click={() => reset?.()}>
+<button onclick={() => reset?.()}>
     Reset
 </button>
 
