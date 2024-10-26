@@ -1,13 +1,13 @@
 <script lang="ts">
-    import 'ghostsui';
+	import 'ghostsui';
 </script>
 
 <main>
-    <slot />
+	<slot />
 </main>
 
 <style>
-    main {
-        padding: 32px;
-    }
+	main {
+		padding: 32px;
+	}
 </style>
