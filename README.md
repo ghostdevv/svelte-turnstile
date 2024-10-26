@@ -12,7 +12,7 @@ npm install svelte-turnstile -D
 
 # Demo
 
-https://svelte-turnstile.pages.dev/
+https://svelte-turnstile.willow.codes
 
 # Using
 
