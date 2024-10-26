@@ -20,7 +20,7 @@ The only required prop is the `siteKey` which you can get from [adding a site he
 
 ```svelte
 <script>
-    import { Turnstile } from 'svelte-turnstile';
+	import { Turnstile } from 'svelte-turnstile';
 </script>
 
 <Turnstile siteKey="SITE_KEY" />
@@ -71,36 +71,36 @@ If you are using a HTML Form and POSTing to a server you can get the `cf-turnsti
 
 ```ts
 interface TokenValidateResponse {
-    'error-codes': string[];
-    success: boolean;
-    action: string;
-    cdata: string;
+	'error-codes': string[];
+	success: boolean;
+	action: string;
+	cdata: string;
 }
 
 async function validateToken(token: string, secret: string) {
-    const response = await fetch(
-        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-        {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-            },
-            body: JSON.stringify({
-                response: token,
-                secret: secret,
-            }),
-        },
-    );
+	const response = await fetch(
+		'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+		{
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json',
+			},
+			body: JSON.stringify({
+				response: token,
+				secret: secret,
+			}),
+		},
+	);
 
-    const data: TokenValidateResponse = await response.json();
+	const data: TokenValidateResponse = await response.json();
 
-    return {
-        // Return the status
-        success: data.success,
+	return {
+		// Return the status
+		success: data.success,
 
-        // Return the first error if it exists
-        error: data['error-codes']?.length ? data['error-codes'][0] : null,
-    };
+		// Return the first error if it exists
+		error: data['error-codes']?.length ? data['error-codes'][0] : null,
+	};
 }
 ```
 
@@ -112,17 +112,17 @@ In SvelteKit we can use form actions to easily setup a form with a captcha:
 
 ```svelte
 <script>
-    import { Turnstile } from 'svelte-turnstile';
+	import { Turnstile } from 'svelte-turnstile';
 
-    let { form } = $props();
+	let { form } = $props();
 </script>
 
 {#if form?.error}
-    <p>{form?.error}</p>
+	<p>{form?.error}</p>
 {/if}
 
 <form method="POST" action="/login">
-    <Turnstile siteKey="SITE_KEY" theme="dark" />
+	<Turnstile siteKey="SITE_KEY" theme="dark" />
 </form>
 ```
 
@@ -132,21 +132,21 @@ In SvelteKit we can use form actions to easily setup a form with a captcha:
 // Copy and paste the validateToken function from above here
 
 export const actions = {
-    default: async ({ request }) => {
-        const data = await request.formData();
+	default: async ({ request }) => {
+		const data = await request.formData();
 
-        const token = data.get('cf-turnstile-response'); // if you edited the formsField option change this
-        const SECRET_KEY = '...'; // you should use $env module for secrets
+		const token = data.get('cf-turnstile-response'); // if you edited the formsField option change this
+		const SECRET_KEY = '...'; // you should use $env module for secrets
 
-        const { success, error } = await validateToken(token, SECRET_KEY);
+		const { success, error } = await validateToken(token, SECRET_KEY);
 
-        if (!success)
-            return {
-                error: error || 'Invalid CAPTCHA',
-            };
+		if (!success)
+			return {
+				error: error || 'Invalid CAPTCHA',
+			};
 
-        // do something, the captcha is valid!
-    },
+		// do something, the captcha is valid!
+	},
 };
 ```
 
@@ -156,12 +156,10 @@ If you need to manually reset the widget, you can do so by binding to the `reset
 
 ```svelte
 <script lang="ts">
-    let reset = $state<() => void>();
+	let reset = $state<() => void>();
 </script>
 
-<button onclick={() => reset?.()}>
-    Reset
-</button>
+<button onclick={() => reset?.()}> Reset </button>
 
 <Turnstile bind:reset />
 ```
