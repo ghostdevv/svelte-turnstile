@@ -98,7 +98,7 @@
 	export let theme: RenderParameters['theme'] = 'auto';
 
 	/**
-	 * The widget size. Can be 'normal', 'flexible', or 'compact'.
+	 * The widget size. Can be 'normal', 'flexible', 'invisible', or 'compact'.
 	 * @default "normal"
 	 */
 	export let size: RenderParameters['size'] = 'normal';
