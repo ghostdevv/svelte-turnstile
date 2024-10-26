@@ -14,7 +14,7 @@
 </main>
 
 <style>
-    main {
-        padding: 32px;
-    }
+	main {
+		padding: 32px;
+	}
 </style>
