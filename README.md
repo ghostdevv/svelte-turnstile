@@ -150,6 +150,58 @@ export const actions = {
 };
 ```
 
+## Superforms Example (Svelte 5)
+
+`schema.ts`
+
+```ts
+import { z } from "zod";
+
+export const schema = z.object({
+	..., // other fields
+    "cf-turnstile-response": z.string().nonempty()
+});
+```
+
+`routes/login/+page.svelte`
+
+```svelte
+<script lang="ts">
+	// other imports
+	import { superForm } from 'sveltekit-superforms';
+	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { schema } from './schema.ts';
+	import { Turnstile } from 'svelte-turnstile';
+
+	let { data }: { data: PageData } = $props();
+
+	const form = superForm(data.form, {
+		validators: zodClient(schema),
+		onUpdated() {
+			reset?.();
+		},
+	});
+
+	const { form: formData, enhance, message } = form;
+
+	let reset = $state<() => void>(); // reset the turnstile widget when the form is updated
+</script>
+
+<form method="POST" action="/login" use:enhance>
+	<Turnstile
+		on:callback={(event) => {
+			$formData['cf-turnstile-response'] = event.detail.token;
+		}}
+		on:expired={() => {
+			reset?.();
+		}}
+		siteKey={PUBLIC_TURNSTILE_SITE_KEY}
+		bind:reset />
+</form>
+```
+
+This example uses the [superforms events](https://superforms.rocks/concepts/events) to reset the turnstile widget when the form is updated and automatically add the token to the form data.
+
 # Resetting
 
 If you need to manually reset the widget, you can do so by binding to the `reset` prop. For example:
