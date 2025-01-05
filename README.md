@@ -192,9 +192,6 @@ export const schema = z.object({
 		on:callback={(event) => {
 			$formData['cf-turnstile-response'] = event.detail.token;
 		}}
-		on:expired={() => {
-			reset?.();
-		}}
 		siteKey={PUBLIC_TURNSTILE_SITE_KEY}
 		bind:reset />
 </form>
