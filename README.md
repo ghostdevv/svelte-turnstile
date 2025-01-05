@@ -104,7 +104,7 @@ async function validateToken(token: string, secret: string) {
 }
 ```
 
-## SvelteKit Example
+## SvelteKit Example (Svelte 5)
 
 In SvelteKit we can use form actions to easily setup a form with a captcha:
 
@@ -200,7 +200,7 @@ export const schema = z.object({
 </form>
 ```
 
-This example uses the [superforms events](https://superforms.rocks/concepts/events) to reset the turnstile widget when the form is updated and automatically add the token to the form data.
+This example uses the [Superforms onUpdated event](https://superforms.rocks/concepts/events) to reset the Turnstile widget. Additionally, it automatically adds the Turnstile response token to the form data.
 
 # Resetting
 
