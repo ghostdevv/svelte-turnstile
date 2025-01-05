@@ -3,13 +3,15 @@ export interface Events {
 	 * Deprecated - use `callback` instead.
 	 * @deprecated
 	 */
-	'turnstile-callback': { token: string };
+	'turnstile-callback': { token: string; preClearanceObtained: boolean };
 
 	/**
 	 * Callback function invoked upon successful challenge completion.
-	 * @param { token: string } - The token passed upon successful challenge.
+	 * @param detail - An object containing details about the event.
+	 * @param detail.token - The token received upon successful challenge completion.
+	 * @param detail.preClearanceObtained - Boolean indicating if the clearance was obtained.
 	 */
-	callback: { token: string };
+	callback: { token: string; preClearanceObtained: boolean };
 
 	/**
 	 * Deprecated - use `error-callback` instead.

@@ -149,9 +149,9 @@
 
 	$: renderParams = {
 		sitekey: siteKey,
-		callback: (token: string) => {
-			dispatch('callback', { token });
-			dispatch('turnstile-callback', { token });
+		callback: (token: string, preClearanceObtained: boolean) => {
+			dispatch('callback', { token, preClearanceObtained });
+			dispatch('turnstile-callback', { token, preClearanceObtained });
 		},
 		'error-callback': (code) => {
 			dispatch('error', { code });

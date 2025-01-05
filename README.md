@@ -53,15 +53,15 @@ For more information about some of the props and a list of `SupportedLanguage`'s
 
 ## Events
 
-| Event                | Data                | Description                                                    |
-| -------------------- | ------------------- | -------------------------------------------------------------- |
-| `callback`           | `{ token: string }` | Emitted when a user passes a challenge                         |
-| `error`              | `{ code: string }`  | Emitted when a user fails verification                         |
-| `expired`            | `{}`                | Emitted when a challenge expires and does not reset the widget |
-| `timeout`            | `{}`                | Emitted when a challenge expires and does reset the widget     |
-| `before-interactive` | `{}`                | Emitted before the challenge enters interactive mode           |
-| `after-interactive`  | `{}`                | Emitted when the challenge has left interactive mode           |
-| `unsupported`        | `{}`                | Emitted when a given client/browser is not supported           |
+| Event                | Data                                                | Description                                                    |
+| -------------------- | --------------------------------------------------- | -------------------------------------------------------------- |
+| `callback`           | `{ token: string; preClearanceObtained: boolean; }` | Emitted when a user passes a challenge                         |
+| `error`              | `{ code: string }`                                  | Emitted when a user fails verification                         |
+| `expired`            | `{}`                                                | Emitted when a challenge expires and does not reset the widget |
+| `timeout`            | `{}`                                                | Emitted when a challenge expires and does reset the widget     |
+| `before-interactive` | `{}`                                                | Emitted before the challenge enters interactive mode           |
+| `after-interactive`  | `{}`                                                | Emitted when the challenge has left interactive mode           |
+| `unsupported`        | `{}`                                                | Emitted when a given client/browser is not supported           |
 
 # Validate CAPTCHA
 
