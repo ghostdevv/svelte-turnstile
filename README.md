@@ -199,7 +199,6 @@ export const schema = z.object({
 import { fail, message, setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { schema } from './schema.ts';
-import { z } from 'zod';
 
 export const load = async () => {
 	const form = await superValidate(zod(schema));
