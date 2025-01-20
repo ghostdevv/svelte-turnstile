@@ -152,14 +152,14 @@ export const actions = {
 
 ## Superforms Example (Svelte 5)
 
-`schema.ts`
+`routes/login/schema.ts`
 
 ```ts
 import { z } from "zod";
 
 export const schema = z.object({
 	..., // other fields
-    "cf-turnstile-response": z.string().nonempty()
+    "cf-turnstile-response": z.string().nonempty('Please complete turnstile')
 });
 ```
 
@@ -167,34 +167,67 @@ export const schema = z.object({
 
 ```svelte
 <script lang="ts">
-	// other imports
-	import { superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { schema } from './schema.ts';
+	import { superForm } from 'sveltekit-superforms';
 	import { Turnstile } from 'svelte-turnstile';
+	import { schema } from './schema.ts';
 
-	let { data }: { data: PageData } = $props();
+	let { data } = $props();
 
-	const form = superForm(data.form, {
+	// Call this to reset the turnstile
+	let reset = $state<() => void>();
+
+	const { enhance, message } = superForm(data.form, {
 		validators: zodClient(schema),
 		onUpdated() {
+			// When the form is updated, we reset the turnstile
 			reset?.();
 		},
 	});
-
-	const { form: formData, enhance, message } = form;
-
-	let reset = $state<() => void>(); // reset the turnstile widget when the form is updated
 </script>
 
-<form method="POST" action="/login" use:enhance>
+<form method="POST" use:enhance>
 	<Turnstile
-		on:callback={(event) => {
-			$formData['cf-turnstile-response'] = event.detail.token;
-		}}
 		siteKey={PUBLIC_TURNSTILE_SITE_KEY}
 		bind:reset />
 </form>
+```
+
+`routes/login/+page.server.js`
+
+```js
+import { fail, message, setError, superValidate } from 'sveltekit-superforms';
+import { zod } from 'sveltekit-superforms/adapters';
+import { schema } from './schema.ts';
+import { z } from 'zod';
+
+export const load = async () => {
+	const form = await superValidate(zod(schema));
+	return { form };
+};
+
+export const actions = {
+	default: async ({ request }) => {
+		const form = await superValidate(request, zod(schema));
+		if (!form.valid) return fail(400, { form });
+
+		const { success } = await validateToken(
+			form.data['cf-turnstile-response'],
+			SECRET_KEY
+		);
+
+		if (!success) {
+			return setError(
+				form,
+				'cf-turnstile-response',
+				'Invalid turnstile, please try again',
+			);
+		}
+
+		return message(form, 'Success!');
+	},
+};
+
 ```
 
 This example uses the [Superforms onUpdated event](https://superforms.rocks/concepts/events) to reset the Turnstile widget. Additionally, it automatically adds the Turnstile response token to the form data.
