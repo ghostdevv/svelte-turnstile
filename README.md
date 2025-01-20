@@ -48,8 +48,8 @@ For more information about some of the props and a list of `SupportedLanguage`'s
 
 ### Deprecated Props
 
--   `forms` renamed to `responseField`
--   `formsField` renamed to `responseFieldName`
+- `forms` renamed to `responseField`
+- `formsField` renamed to `responseFieldName`
 
 ## Events
 
@@ -159,7 +159,7 @@ import { z } from "zod";
 
 export const schema = z.object({
 	..., // other fields
-    "cf-turnstile-response": z.string().nonempty('Please complete turnstile')
+    'cf-turnstile-response': z.string().nonempty('Please complete turnstile')
 });
 ```
 
@@ -187,9 +187,7 @@ export const schema = z.object({
 </script>
 
 <form method="POST" use:enhance>
-	<Turnstile
-		siteKey={PUBLIC_TURNSTILE_SITE_KEY}
-		bind:reset />
+	<Turnstile siteKey={PUBLIC_TURNSTILE_SITE_KEY} bind:reset />
 </form>
 ```
 
@@ -212,7 +210,7 @@ export const actions = {
 
 		const { success } = await validateToken(
 			form.data['cf-turnstile-response'],
-			SECRET_KEY
+			SECRET_KEY,
 		);
 
 		if (!success) {
@@ -226,7 +224,6 @@ export const actions = {
 		return message(form, 'Success!');
 	},
 };
-
 ```
 
 This example uses the [Superforms onUpdated event](https://superforms.rocks/concepts/events) to reset the Turnstile widget. Additionally, it automatically adds the Turnstile response token to the form data.
@@ -247,16 +244,16 @@ If you need to manually reset the widget, you can do so by binding to the `reset
 
 # Support
 
--   Join the [discord](https://discord.gg/2Vd4wAjJnm)<br>
--   Create a issue on the [github](https://github.com/ghostdevv/svelte-turnstile)
+- Join the [discord](https://discord.gg/2Vd4wAjJnm)<br>
+- Create a issue on the [github](https://github.com/ghostdevv/svelte-turnstile)
 
 # Notable Changes
 
 Full Changelog: https://github.com/ghostdevv/svelte-turnstile/releases
 
--   Deprecate `forms` prop in favour of `responseField`
--   Deprecate `formsField` prop in favour of `responseFieldName`
--   Deprecate the `on:turnstile-callback` event in favour of `on:callback`
--   Deprecate the `on:turnstile-error` event in favour of `on:error`
--   Deprecate the `on:turnstile-timeout` event in favour of `on:timeout`
--   Deprecate the `on:turnstile-expired` event in favour of `on:expired`
+- Deprecate `forms` prop in favour of `responseField`
+- Deprecate `formsField` prop in favour of `responseFieldName`
+- Deprecate the `on:turnstile-callback` event in favour of `on:callback`
+- Deprecate the `on:turnstile-error` event in favour of `on:error`
+- Deprecate the `on:turnstile-timeout` event in favour of `on:timeout`
+- Deprecate the `on:turnstile-expired` event in favour of `on:expired`
