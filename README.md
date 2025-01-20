@@ -104,7 +104,7 @@ async function validateToken(token: string, secret: string) {
 }
 ```
 
-## SvelteKit Example
+## SvelteKit Example (Svelte 5)
 
 In SvelteKit we can use form actions to easily setup a form with a captcha:
 
@@ -149,6 +149,87 @@ export const actions = {
 	},
 };
 ```
+
+## Superforms Example (Svelte 5)
+
+`routes/login/schema.ts`
+
+```ts
+import { z } from "zod";
+
+export const schema = z.object({
+	..., // other fields
+    "cf-turnstile-response": z.string().nonempty('Please complete turnstile')
+});
+```
+
+`routes/login/+page.svelte`
+
+```svelte
+<script lang="ts">
+	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { superForm } from 'sveltekit-superforms';
+	import { Turnstile } from 'svelte-turnstile';
+	import { schema } from './schema.ts';
+
+	let { data } = $props();
+
+	// Call this to reset the turnstile
+	let reset = $state<() => void>();
+
+	const { enhance, message } = superForm(data.form, {
+		validators: zodClient(schema),
+		onUpdated() {
+			// When the form is updated, we reset the turnstile
+			reset?.();
+		},
+	});
+</script>
+
+<form method="POST" use:enhance>
+	<Turnstile
+		siteKey={PUBLIC_TURNSTILE_SITE_KEY}
+		bind:reset />
+</form>
+```
+
+`routes/login/+page.server.js`
+
+```js
+import { fail, message, setError, superValidate } from 'sveltekit-superforms';
+import { zod } from 'sveltekit-superforms/adapters';
+import { schema } from './schema.ts';
+
+export const load = async () => {
+	const form = await superValidate(zod(schema));
+	return { form };
+};
+
+export const actions = {
+	default: async ({ request }) => {
+		const form = await superValidate(request, zod(schema));
+		if (!form.valid) return fail(400, { form });
+
+		const { success } = await validateToken(
+			form.data['cf-turnstile-response'],
+			SECRET_KEY
+		);
+
+		if (!success) {
+			return setError(
+				form,
+				'cf-turnstile-response',
+				'Invalid turnstile, please try again',
+			);
+		}
+
+		return message(form, 'Success!');
+	},
+};
+
+```
+
+This example uses the [Superforms onUpdated event](https://superforms.rocks/concepts/events) to reset the Turnstile widget. Additionally, it automatically adds the Turnstile response token to the form data.
 
 # Resetting
 
