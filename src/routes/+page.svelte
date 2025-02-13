@@ -3,21 +3,21 @@
 	import { enhance } from '$app/forms';
 	import { Turnstile } from '$lib';
 
-	export let form;
+	const { form } = $props();
 
-	let secretKey = '1x0000000000000000000000000000000AA';
-	let siteKey = '1x00000000000000000000AA';
-	let theme: TurnstileTheme = 'auto';
-	let size: TurnstileSize = 'normal';
+	let secretKey = $state('1x0000000000000000000000000000000AA');
+	let sitekey = $state('1x00000000000000000000AA');
+	let theme: TurnstileTheme = $state('auto');
+	let size: TurnstileSize = $state('normal');
 
-	let reset: () => void | undefined;
+	let turnstile: Turnstile;
 </script>
 
 <section class="row">
 	<label>
 		Demo Site Key type
 
-		<select bind:value={siteKey}>
+		<select bind:value={sitekey}>
 			<option value="1x00000000000000000000AA">Always Pass</option>
 			<option value="2x00000000000000000000AB">Always Block</option>
 			<option value="3x00000000000000000000FF">
@@ -67,12 +67,14 @@
 
 <section>
 	<form method="POST" use:enhance>
-		<Turnstile {size} {theme} {siteKey} bind:reset />
+		<Turnstile {size} {theme} {sitekey} bind:this={turnstile} />
 		<input type="hidden" name="secret" bind:value={secretKey} />
 
 		<div class="row">
 			<button>Validate</button>
-			<button type="button" on:click={() => reset?.()}>Reset</button>
+			<button type="button" onclick={() => turnstile.reset()}>
+				Reset
+			</button>
 		</div>
 	</form>
 
