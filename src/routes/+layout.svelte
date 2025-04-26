@@ -1,9 +1,11 @@
 <script lang="ts">
 	import 'ghostsui';
+
+	const { children } = $props();
 </script>
 
 <main>
-	<slot />
+	{@render children()}
 </main>
 
 <style>

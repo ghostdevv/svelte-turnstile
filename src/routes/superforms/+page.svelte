@@ -6,14 +6,14 @@
 
 	export let data;
 
-	let reset: (() => void) | undefined = undefined;
+	let turnstile: Turnstile;
 
 	const { form, errors, constraints, message, enhance } = superForm(
 		data.form,
 		{
 			validators: zodClient(schema),
 			onUpdated() {
-				reset?.();
+				turnstile.reset();
 			},
 		},
 	);
@@ -33,7 +33,7 @@
 			<span class="invalid">{$errors.name}</span>
 		{/if}
 
-		<Turnstile siteKey="3x00000000000000000000FF" bind:reset />
+		<Turnstile sitekey="3x00000000000000000000FF" bind:this={turnstile} />
 
 		{#if $errors['cf-turnstile-response']}
 			<span class="invalid">{$errors['cf-turnstile-response']}</span>
