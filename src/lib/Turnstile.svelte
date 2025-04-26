@@ -238,7 +238,6 @@
 
 <style>
 	:where(.flexible) {
-		min-width: 300px;
 		width: 100%;
 	}
 </style>
