@@ -177,7 +177,7 @@ export const schema = z.object({
 	// Call this to reset the turnstile
 	let reset = $state<() => void>();
 
-	const { enhance, message } = superForm(data.form, {
+	const { form, enhance, message } = superForm(data.form, {
 		validators: zodClient(schema),
 		onUpdated() {
 			// When the form is updated, we reset the turnstile
@@ -187,7 +187,13 @@ export const schema = z.object({
 </script>
 
 <form method="POST" use:enhance>
-	<Turnstile siteKey={PUBLIC_TURNSTILE_SITE_KEY} bind:reset />
+	<Turnstile
+		siteKey={PUBLIC_TURNSTILE_SITE_KEY}
+		bind:reset
+		on:callback={(event) => {
+			// Required when using client side validation
+			$form['cf-turnstile-response'] = event.detail.token;
+		}} />
 </form>
 ```
 

@@ -33,7 +33,12 @@
 			<span class="invalid">{$errors.name}</span>
 		{/if}
 
-		<Turnstile siteKey="3x00000000000000000000FF" bind:reset />
+		<Turnstile
+			siteKey="3x00000000000000000000FF"
+			bind:reset
+			on:callback={(event) => {
+				$form['cf-turnstile-response'] = event.detail.token;
+			}} />
 
 		{#if $errors['cf-turnstile-response']}
 			<span class="invalid">{$errors['cf-turnstile-response']}</span>
